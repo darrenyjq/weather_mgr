@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+import "elete.proto";
+
+package  cootek.account;
+option go_package = "base/cootek/account/TokenService";
+
+enum TokenStatus {
+    TOKEN_VALID = 0;    //token有效
+    TOKEN_INVALID = 2;    //token不合法，调用方如果拿到这个状态，应该将该token视作不合法
+}
+
+enum AccountType {
+    TEMP = 0;    //未登录临时用户
+    PHONE = 1;    //短信登录用户
+    OAUTH2_GOOGLE = 2;    //Google登录
+    OAUTH_TWITTER = 3;    //Twitter登录
+    OAUTH2_FACEBOOK = 4;    //Facebook登录
+    OAUTH2_SINAWEIBO = 5;    //新浪登录
+    OAUTH2_QQ = 6;    //qq登录
+    VOIP_TEMP = 7;    //弃用，OEM预装用户
+    MAIL = 8;    //邮件登录用户
+    OAUTH2_XIAOMI = 9;    //小米登录
+    ANDES = 10;    //弃用，触宝BIBI
+    OEM_AUTH = 11;    //
+    MARKET = 12;    //弃用，营销短信用的，（可以删除）
+    ALERT = 13;    //弃用，报警短信用的，（可以删除）
+    PHONE_OEM_OPEN = 14;    //
+    PHONE_GOOGLE = 15;    //弃用，Google登录，目前只有sc在用，建议新app不要用这个account_type
+    PHONE_FACEBOOK = 16;    //弃用，Facebook登录，目前只有sc在用，建议新app不要用这个account_type
+    PHONE_TWITTER = 17;    //弃用，Twitter登录，目前只有sc在用，建议新app不要用这个account_type
+    PALLAS = 18;    //弃用，触宝白条
+    PHONE_WEIXIN = 19;    //弃用，娃娃机
+}
+
+enum AccountRegion {
+    US = 0;
+    AP = 1;
+    EU = 2;
+    CN = 3;
+}
+
+enum MediaSource{
+    MEDIA_SOURCE_DEFAULT = 0;
+    MEDIA_SOURCE_FACEBOOK = 1;
+    MEDIA_SOURCE_ADWORDS = 2;
+    MEDIA_SOURCE_WANGMENG = 3;
+    MEDIA_SOURCE_GOOGLE_PLAY = 4;
+    MEDIA_SOURCE_DAILIANG = 5;
+    MEDIA_SOURCE_OTHERS = 6;
+    MEDIA_SOURCE_OEM = 7;
+    MEDIA_SOURCE_POSSIBLE_GOOGLE_PLAY = 8;
+    MEDIA_SOURCE_NOAH_PUSH = 9;
+}
+
+enum ActivateType {
+    NEW = 0;
+    RENEW = 1;
+    UPGRADE = 2;
+    RECOMMEND = 3;
+    EFFECTIVE = 4;
+}
+
+
+//验token输入：
+message TokenIn {
+    string token = 1; //token key
+    string version = 2;
+}
+
+message VerifyResult {
+    TokenStatus result = 1;//token是否有效
+    uint64      user_id = 2;
+    AccountType account_type = 3;//用户类型
+    string token = 4;    //token key 例如：v1:"8dd24f21-4fc9-4420-8e3d-490eb5848628"，长度36位，v2："us01:8dd24f21-4fc9-4420-8e3d-490eb5848628"，长度41位
+    uint64 exp_date = 5;    //token过期时间，unix时间戳，服务当地时区
+    string account_name = 7;    //用户名，例如：手机号，从第三方登录获取的用户标识
+    AccountRegion account_region = 8;    //用户所属区域，当前ime组在用
+}
+
+//验token输出：
+message FullTokenInfo {
+    TokenStatus result = 1;    //token当前状态
+    uint64 user_id = 2;    //uid
+    AccountType account_type = 3;    //用户类型
+    string token = 4;    //token key 例如：v1:"8dd24f21-4fc9-4420-8e3d-490eb5848628"，长度36位，v2："us01:8dd24f21-4fc9-4420-8e3d-490eb5848628"，长度41位
+    uint64 exp_date = 5;    //token过期时间，unix时间戳，服务当地时区
+    string activation_code = 6;    //激活时产生的唯一标识，activate_type为renew时会继承之前的activation_code，其他时候是str(uuid.uuid4())，目前只用于追踪
+    string account_name = 7;    //用户名，例如：手机号，从第三方登录获取的用户标识
+    AccountRegion account_region = 8;    //用户所属区域，当前ime组在用
+    MediaSource media_source = 9;    //用户来源，当前主要是ime组在用，表示用户来源，目前已弃用
+    string auth_info_3p = 10;    //facebook或者google的三方登录的结果（全信息）,会用来更新海外的account模块的一些数据库，可能会产生风险，可能拿到第三方auth信息就可以访问第三方平台
+    string auth_3p_name = 11;    //facebook或者google的三方登录的结果(只有用户名)，会用来更新海外的account模块的一些数据库
+    string secret = 12;    //用户登陆后产生用户登陆凭证secret。用户请求时对请求进行签名，确保请求无法伪造。签名字段包含timestamp，防止回放攻击，目前主要是国内在用。
+    ActivationInfo activation_info = 13;    //激活信息
+    bool is_ezalter_participant = 14;    //用户当前是否处于实验中
+}
+
+
+message ActivationInfo {
+    ActivateType activate_type = 1;
+    uint64 user_id = 2; //set to -1 when sent to ACCOUNT, just for compatible
+    string app_name = 3;
+    string app_version = 4;
+    string os_name = 5;
+    string os_version = 6;
+    string device_info = 7;  //机型信息
+    string channel_code = 8;    //
+    string imei = 9;    //每台机器唯一标示
+    string uuid = 10;    //ime用于帮助识别用户
+    string simid = 11;    //sim卡ID，国内暂时没用
+    string locale = 12;    //归一化？
+    string mnc = 13;    //判断国家码
+    string manufacturer = 14;    //机器信息，品牌
+    string api_level = 15;    //api等级, android专用字段, 比如15，在定向人群推送消息的时候，api_level是其中一个定向条件，根据api_level进行用户选择，并推送消息
+    string host_app_name = 16;    //iphone SDK激活专用字段，宿主程序名
+    string host_app_version = 17;    //iphone SDK激活专用字段，宿主程序版本号
+    string resolution = 18;    //屏幕尺寸
+    string dpi = 19;    //手机分辨率
+    string pysical_size = 20;    //物理尺寸
+    string recommend_channel = 21;    //推荐渠道号
+    string last_activation_code = 23;    //上一次的激活码
+    string identifier = 24;    //包含imei
+    bool sys_app = 25;    //看是不是系统预装
+    uint64 timestamp = 26;//本次激活时间
+    string idfa = 27; // ios设备号，不变，现在在用
+    string idfv = 28; // ios设备号，现在不用
+    string apple_token = 29; //store ios_token
+    string release = 30;    //？
+    string android_id = 31;
+    string mac_address = 32;
+    string device_verified = 33;    //？
+    string package_name = 34;    //注册安卓用，和app_name不一样
+    string meta_data = 35;    //示例："{\"noah\":\"5.8\",\"usage\":\"2.0.4\",\"balloon\":\"1.0.2\",\"ads\":\"1.5.1\",\"newsfeed\":\"1.4.4\",\"silent_install\":\"1\",\"store\":\"v5782\"}"
+    uint64 upgrade_timestamp = 36;//上一次升级时间
+    uint64 activate_timestamp = 37;//第一次激活时间
+    string gaid = 38;
+}
+
+service TokenService {
+    rpc VerifyToken(TokenIn) returns (VerifyResult) {//用于验token的基本信息
+    }
+
+    rpc QueryFullInfo(TokenIn) returns (FullTokenInfo) {//查询token对应的全信息
+    }
+}

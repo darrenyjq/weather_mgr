@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "account.proto";
+
+package cootek.pgd.base.account;
+option go_package = "base/cootek/pgd/base/account";
+
+message AccountInfoParam {
+    cootek.pgd.account.Account account = 1;
+}
+
+message AccountInfoResult {
+    message Data {
+        int64 amount        =   1;
+        int64 ticket_num    =   2;
+    }
+    uint64  error_code  =   1;
+    string  msg         =   2;
+    int64   time_unix   =   3;
+    Data    data    =   4;
+}
+
+message IncrAmountParam  {
+    cootek.pgd.account.Account account =   1;
+    int64   incr_num        =   2;
+    string  event           =   3;
+}
+
+message IncrAmountResult {
+    message Data {
+        int64 amount        =   1;
+    }
+    uint64  error_code  =   1;
+    string  msg         =   2;
+    int64   time_unix   =   3;
+    Data    data    =   4;
+}
+
+service Account {
+    rpc Info(AccountInfoParam) returns (AccountInfoResult) {}
+    rpc IncrAmount(IncrAmountParam) returns (IncrAmountResult) {}
+}
+
+
+
+
+
+
