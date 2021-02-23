@@ -1,0 +1,65 @@
+{
+    "cards": [
+        {
+            "card_key": "fortune_cat",
+            "triggers": [
+                {
+                    "grade": 2,
+                    "amount": 5
+                },
+                {
+                    "grade": 6,
+                    "amount": 6
+                }
+            ]
+        },
+        {
+            "card_key": "bravery_cat",
+            "triggers": [
+                {
+                    "grade": 5,
+                    "amount": 5
+                },
+                {
+                    "grade": 6,
+                    "amount": 10
+                }
+            ]
+        },
+        {
+            "card_key": "lucky_cat",
+            "triggers": [
+                {
+                    "grade": 20,
+                    "amount": 5
+                },
+                {
+                    "grade": 25,
+                    "amount": 5
+                }
+            ]
+        },
+        {
+            "card_key": "lovely_cat",
+            "triggers": [
+                {
+                    "grade": 30,
+                    "amount": 5
+                },
+                {
+                    "grade": 35,
+                    "amount": 5
+                }
+            ]
+        },
+        {
+            "card_key": "magical_cat",
+            "triggers": [
+                {
+                    "grade": 40,
+                    "amount": 2
+                }
+            ]
+        }
+    ]
+}

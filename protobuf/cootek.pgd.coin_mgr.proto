@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+
+import "cootek.pgd.ysession.proto";
+package cootek.pgd.coin_mgr;
+option go_package = "weather_mgr/cootek/pgd/coin_mgr";
+
+
+message GetCoinInfoParam{
+    ysession.SessionParam sessionBase = 1;
+}
+
+message GetCoinInfoByUidParam{
+    uint64 uid = 1;
+    string appName = 2;
+    string account_name = 3;
+    string account_type = 4;
+}
+
+message GetCoinAccountParam{
+    ysession.SessionParam sessionBase = 1;
+}
+
+message GetCoinAccountResult{
+    int64 balance = 1;
+    bool hasRewardedFirstLogin = 2;
+    string createTime = 3;
+    string updateTime = 4;
+}
+
+message GetCoinInfoResult{
+    int64 balance = 1;
+    bool hasRewardedFirstLogin = 2;
+    string createTime = 3;
+    string updateTime = 4;
+}
+
+
+message IncrCoinParam{
+    ysession.SessionParam sessionBase = 1;
+    string label = 2;
+    int64 incrNum = 3;
+    bool notLog = 4;
+}
+
+message IncrCoinByUidParam{
+    uint64 uid = 1;
+    string label = 2;
+    int64 incrNum = 3;
+    string appName = 4;
+}
+
+
+message IncrCoinResult{
+    int64 balance = 1;
+}
+
+message GetCoinTotalStatsParam{
+    ysession.SessionParam sessionBase = 1;
+}
+
+message GetCoinTotalStatsResult{
+    int64 totalAwardCoins = 1;
+}
+
+message GetCoinTotalStatsByUidParam{
+    uint64 uid = 1;
+}
+
+message GetCoinTotalStatsByUidResult{
+    int64 totalAwardCoins = 1;
+}
+
+
+message AwardCoinParam{
+    ysession.SessionParam sessionBase = 1;
+    string label = 2;
+    int64 num = 3;
+}
+
+message AwardCoinResult{
+    message AwardCoinData{
+        int64 balance = 1;
+        int64 dailyAwardedAmountMax = 2;
+        int64 todayAwardedTimes = 3;
+        int64 todayAwardedAmount = 4;
+        string label = 5;
+        string today = 6;
+    }
+    string msg = 1;
+    int64 error_code = 2;
+    AwardCoinData data = 3;
+}
+
+service CoinMgr {
+    rpc GetCoinInfo(GetCoinInfoParam) returns (GetCoinInfoResult) {}
+    rpc GetCoinInfoByUid(GetCoinInfoByUidParam) returns (GetCoinInfoResult) {}
+    rpc IncrCoin(IncrCoinParam) returns (IncrCoinResult) {}
+    rpc IncrCoinByUid(IncrCoinByUidParam) returns (IncrCoinResult) {}
+    rpc GetCoinTotalStats(GetCoinTotalStatsParam) returns (GetCoinTotalStatsResult) {}
+    rpc GetCoinAccount(GetCoinAccountParam) returns (GetCoinAccountResult) {}
+    rpc GetCoinTotalStatsByUid(GetCoinTotalStatsByUidParam) returns (GetCoinTotalStatsByUidResult) {}
+    rpc AwardCoin(AwardCoinParam) returns (AwardCoinResult) {}
+}
+

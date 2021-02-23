@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package cootek.pgd.weather_mgr;
+option go_package = "weather_server/cootek/pgd/weather_mgr";
+
+// CreateReq ----------------下单--------------------
+message CreateReq {
+    int64 class = 1; // 下单品类
+    int64 game_id = 2; // 游戏ID
+    int64 region_id1 = 3; // 平台ID,group id
+    int64 region_id2 = 4; // 大区ID
+    int64 start_level1 = 5;
+    int64 start_level2 = 6;
+    int64 end_level1 = 7;
+    int64 end_level2 = 8;
+
+    int64 region_id = 9; // 陪玩参数,和region_id1一样，历史原因导致的意义相同字段不同
+    int64 hours = 10; // 陪玩小时数
+    int64 god_id = 11; // 陪玩约的大神ID
+
+    string orderpage = 12;
+    int64 level_id = 13;
+    int64 payment_type = 14;
+
+    int64 room_id = 15;
+    string room_name = 16;
+    int64 gift_id = 17;
+    int64 account_id = 18;
+    int64 coupon_id = 19; // 给一元购活动用的 优惠券id
+    string pd_id = 20; // 派单ID
+}
+
+message HourlyReq {
+    double lng = 1;
+    double lat = 2;
+    string city_code = 3;
+    //TestGroup   string    // 实验组
+    //WeatherType string    // 查看天气的类型
+    //Time        time.Time // 客户端访问时间
+    //Uid         uint64
+    //ApiType     string // 华风 api 类型 用于拼path
+}
+message DailyReq {
+    double lng = 1;
+    double lat = 2;
+    string city_code = 3;
+}
+
+message TodayReq {
+    double lng = 1;
+    double lat = 2;
+    string city_code = 3;
+}
+
+message HourlyResp {
+    repeated HourlyStyle list = 1;
+}
+message DailyResp {
+    repeated DailyStyle list = 1;
+}
+
+message HourlyStyle {
+    int64 date = 1;
+    string temperature = 2;
+    string skycon = 3;
+}
+message DailyStyle {
+    int64 date = 1;
+    string temperature_max = 2;
+    string temperature_min = 3;
+    string skycon = 4;
+    string sunset = 5;
+    string sunrise = 6;
+    double aqi = 7;
+}
+
+message TodayResp {
+    string forecast_keypoint = 1; // 生活指数预报的详细描述，可能为空
+    string rain_desc = 2; // 降水描述，可能为空
+    string alert_desc = 3; // 预警详细文字描述
+    string warm_remind = 4; // 提示
+    string humidity = 5; // 湿度
+    string comfort = 6; // 舒适指数
+    LifeSuggestion life_suggestion = 7;
+    int64 date = 8;
+}
+
+message LifeSuggestion {
+    string dressing = 1; // 穿衣指数
+    string fishing = 2; // 钓鱼指数
+    string flu = 3; // 感冒指数
+    string sport = 4; // 运动指数
+    string uv = 5; // 紫外线指数
+    string travel = 6; // 旅游指数
+    string airing = 7; // 晾晒
+}
+
+
+service WeatherMgr {
+    // 24小时 天气情况
+    rpc Hourly (HourlyReq) returns (HourlyResp) {
+    }
+    // 近一周天气情况
+    rpc Daily (DailyReq) returns (DailyResp) {
+    }
+    // 当天生活指数情况
+    rpc Today (TodayReq) returns (TodayResp) {
+    }
+
+}

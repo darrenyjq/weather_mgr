@@ -1,6 +1,12 @@
 ## 业务基础框架
 1. 把代码clone下来，重命名为项目名称
+```
+git clone git@gitlab.corp.cootek.com:pgd_portfolio/mig/server/base_go.git newProject
+```
 2. 替换代码中的包引用路径，base为项目名即可
+```
+go run artisan.go -name newProject
+```
 
 # 依赖
 项目依赖elete_go项目，该项目因为把整个gopath下的目录都上传到仓库中了，所以把该项目clone下来，再改为本地的gopath路径，把当前项目再放到src目录下。

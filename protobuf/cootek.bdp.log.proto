@@ -1,0 +1,39 @@
+syntax="proto3";
+import "elete.proto";
+package cootek.bdp.log;
+option go_package = "weather_mgr/cootek/bdp/log";
+
+
+message Log {
+   enum Type {
+       VALID = 0;
+       ERROR = 1;
+   }
+   Type type = 1;
+   string url = 2;
+   uint64 user_id = 3;
+   bytes request = 4;
+   string app_name = 5;
+   string app_version = 6;
+   string channel_code = 7;
+   string ip = 8;
+   string identifier = 9;
+   string release = 10;
+   string this_phone = 11;
+   string send_time = 12;
+   string device_info = 13;
+   string manufacturer = 14;
+   string recommend_channel = 15;
+   string locale = 16;
+   string package_name = 17;
+   string meta_data = 18;
+   string gaid = 19;
+   string usage_time = 20;
+}
+
+service LogReceiver {
+   rpc SendLogMessage(Log) returns (google.protobuf.Empty) {//send log message
+       option (cootek.elete.method_type)=LEGACY;
+       option (cootek.elete.legacy_service_name)="LOG";
+   }
+}

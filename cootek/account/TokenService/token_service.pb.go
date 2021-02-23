@@ -5,9 +5,9 @@ package TokenService
 
 import (
 	context "context"
-	_ "cootek.com/elete/sdk"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	_ "gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"

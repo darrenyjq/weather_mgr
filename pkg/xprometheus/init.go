@@ -1,48 +1,75 @@
 package xprometheus
 
 import (
-	"fmt"
+	"weather_mgr/helper"
+
 	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (
 	//请求
-	HttpRequestsCouter = prometheus.NewCounterVec(
+	CoinLabelCouter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Subsystem: "mig_withdraw",
-			Namespace: "pgd",
-			Name:      "http_requests_total",
-			Help:      "mig_withdraw http request counter",
+			Subsystem: "coin_bank",
+			Namespace: "ime_one",
+			Name:      "coin_label_count",
+			Help:      "coin_bank coins transfer ",
 		},
-		[]string{"code", "path", "error_code", "version", "app_name"},
+		[]string{"label", "app_name", "trade"},
+	)
+	CoinLabelTimesCouter = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Subsystem: "coin_bank",
+			Namespace: "ime_one",
+			Name:      "coin_label_times",
+			Help:      "coin_bank coins transfer times",
+		},
+		[]string{"label", "app_name", "trade"},
 	)
 
-	//用户事件
-	UserEventCouter = prometheus.NewCounterVec(
+	CoinAwardCouter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Subsystem: "mig_withdraw",
-			Namespace: "pgd",
-			Name:      "user_event_total",
-			Help:      "mig_withdraw user event counter",
+			Subsystem: "coin_bank",
+			Namespace: "ime_one",
+			Name:      "coin_award",
+			Help:      "coin_bank coin_award",
 		},
-		[]string{"event", "thing", "num", "version", "app_name"},
+		[]string{"label", "app_name", "error_code"},
 	)
-
-
 )
 
-func init()  {
+func init() {
 	//注册
-	prometheus.MustRegister(HttpRequestsCouter, UserEventCouter)
+	prometheus.MustRegister(CoinLabelCouter, CoinLabelTimesCouter, CoinAwardCouter)
+
+}
+func AddCoinAwardCouter(label string, appName string, errCode int64) {
+	CoinAwardCouter.With(
+		prometheus.Labels{
+			"label":      label,
+			"app_name":   appName,
+			"error_code": helper.Int642Str(errCode),
+		}).Inc()
 }
 
-func AddHttpRequestsCouter(httpCode, path, errorCode, version, appName string)  {
-	HttpRequestsCouter.With(prometheus.Labels{"code": httpCode, "path": path, "error_code":errorCode, "version":version, "app_name":appName}).Inc()
+func AddCoinLabelCouter(label string, appName string, coinNum int64) {
+	trade := "award"
+	if coinNum < 0 {
+		coinNum = -coinNum
+		trade = "consume"
+	}
+
+	CoinLabelCouter.With(
+		prometheus.Labels{
+			"label":    label,
+			"app_name": appName,
+			"trade":    trade,
+		}).Add(float64(coinNum))
+
+	CoinLabelTimesCouter.With(
+		prometheus.Labels{
+			"label":    label,
+			"app_name": appName,
+			"trade":    trade,
+		}).Inc()
 }
-
-func AddUserEventCouter(event , thing string, num int64, version , appName string)  {
-	UserEventCouter.With(prometheus.Labels{"event":event, "thing":thing, "num":fmt.Sprintf("%d",num), "version":version, "app_name":appName}).Inc()
-}
-
-
-
