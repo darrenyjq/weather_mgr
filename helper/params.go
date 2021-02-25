@@ -603,5 +603,5 @@ type ConfigTask struct {
 }
 
 type WeatherChanData struct {
-	Params *ParamWeatherInfo
+	Params *weather_mgr.WeatherReq
 }

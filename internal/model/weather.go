@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"strconv"
 	"time"
-	"weather_mgr/helper"
+	"weather_mgr/cootek/pgd/weather_mgr"
 	"weather_mgr/internal/model/key"
 	"weather_mgr/pkg/xzap"
 )
@@ -23,7 +23,7 @@ func init() {
 }
 
 // 获取上一天数据
-func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string) (lastData []*helper.DailyStyle) {
+func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string) (lastData []*weather_mgr.DailyStyle) {
 
 	currentTime := GetTimeNow(ctx)
 
@@ -33,33 +33,33 @@ func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string) (las
 
 	// 取前一天整点
 	lastDay, err2 := M.GetLastDay(fmt.Sprintf("%s:%d", cityCode, lastDayTime))
-	temp := &helper.DailyStyle{}
+	temp := &weather_mgr.DailyStyle{}
 	if err2 == nil && lastDay != "" {
 		err := json.Unmarshal([]byte(lastDay), temp)
 		if err != nil {
 			return
 		}
-		return []*helper.DailyStyle{temp}
+		return []*weather_mgr.DailyStyle{temp}
 	}
-	return []*helper.DailyStyle{}
+	return []*weather_mgr.DailyStyle{}
 }
 
 // 获取上一小时数据
-func (M *weatherModel) GetLastHourlyData(ctx context.Context, cityCode string) (lastData []*helper.HourlyStyle) {
+func (M *weatherModel) GetLastHourlyData(ctx context.Context, cityCode string) (lastData []*weather_mgr.HourlyStyle) {
 	currentTime := GetTimeNow(ctx)
 	// 可以忽略 0 点
 	timestamp := currentTime.Add(-time.Hour).Hour()
 
 	lastHour, err2 := M.GetLastHour(fmt.Sprintf("%s:%d", cityCode, timestamp))
-	temp := &helper.HourlyStyle{}
+	temp := &weather_mgr.HourlyStyle{}
 	if err2 == nil && lastHour != "" {
 		err := json.Unmarshal([]byte(lastHour), temp)
 		if err != nil {
 			return
 		}
-		return []*helper.HourlyStyle{temp}
+		return []*weather_mgr.HourlyStyle{temp}
 	}
-	return []*helper.HourlyStyle{}
+	return []*weather_mgr.HourlyStyle{}
 }
 
 // 当天总奖励次数

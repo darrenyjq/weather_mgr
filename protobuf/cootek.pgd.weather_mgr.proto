@@ -1,55 +1,16 @@
 syntax = "proto3";
 
 package cootek.pgd.weather_mgr;
-option go_package = "weather_server/cootek/pgd/weather_mgr";
+option go_package = "weather_mgr/cootek/pgd/weather_mgr";
 
-// CreateReq ----------------下单--------------------
-message CreateReq {
-    int64 class = 1; // 下单品类
-    int64 game_id = 2; // 游戏ID
-    int64 region_id1 = 3; // 平台ID,group id
-    int64 region_id2 = 4; // 大区ID
-    int64 start_level1 = 5;
-    int64 start_level2 = 6;
-    int64 end_level1 = 7;
-    int64 end_level2 = 8;
-
-    int64 region_id = 9; // 陪玩参数,和region_id1一样，历史原因导致的意义相同字段不同
-    int64 hours = 10; // 陪玩小时数
-    int64 god_id = 11; // 陪玩约的大神ID
-
-    string orderpage = 12;
-    int64 level_id = 13;
-    int64 payment_type = 14;
-
-    int64 room_id = 15;
-    string room_name = 16;
-    int64 gift_id = 17;
-    int64 account_id = 18;
-    int64 coupon_id = 19; // 给一元购活动用的 优惠券id
-    string pd_id = 20; // 派单ID
-}
-
-message HourlyReq {
+message WeatherReq {
     double lng = 1;
     double lat = 2;
     string city_code = 3;
-    //TestGroup   string    // 实验组
-    //WeatherType string    // 查看天气的类型
-    //Time        time.Time // 客户端访问时间
-    //Uid         uint64
-    //ApiType     string // 华风 api 类型 用于拼path
-}
-message DailyReq {
-    double lng = 1;
-    double lat = 2;
-    string city_code = 3;
-}
-
-message TodayReq {
-    double lng = 1;
-    double lat = 2;
-    string city_code = 3;
+    string test_group = 4; // 实验组
+    string weather_type = 5; // 查看天气的类型
+    uint64 uid = 6; // ass
+    string api_type = 7; // api类型
 }
 
 message HourlyResp {
@@ -98,13 +59,13 @@ message LifeSuggestion {
 
 service WeatherMgr {
     // 24小时 天气情况
-    rpc Hourly (HourlyReq) returns (HourlyResp) {
+    rpc Hourly (WeatherReq) returns (HourlyResp) {
     }
     // 近一周天气情况
-    rpc Daily (DailyReq) returns (DailyResp) {
+    rpc Daily (WeatherReq) returns (DailyResp) {
     }
     // 当天生活指数情况
-    rpc Today (TodayReq) returns (TodayResp) {
+    rpc Today (WeatherReq) returns (TodayResp) {
     }
 
 }

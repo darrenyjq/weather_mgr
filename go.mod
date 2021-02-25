@@ -17,6 +17,7 @@ require (
 	github.com/prometheus/client_golang v1.1.0
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/satori/go.uuid v1.2.0
+	github.com/sirupsen/logrus v1.2.0
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.5.1
 	github.com/tebeka/strftime v0.1.5 // indirect

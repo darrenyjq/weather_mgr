@@ -121,12 +121,12 @@ type HefengData struct {
 // https://api.qweather.com/v7/weather/7d  近 7 天
 // https://api.qweather.com/v7/weather/now   当前温度信息
 
-func (M *hefengModel) GetFormatData(params *helper.ParamWeatherInfo) (val *helper.ParamWeatherInfoResp, err error) {
+func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper.ParamWeatherInfoResp, err error) {
 	val = new(helper.ParamWeatherInfoResp)
-	currentTime := params.Time
-
+	// currentTime := params.Time
+	currentTime := time.Now()
 	switch params.WeatherType {
-	case "info":
+	case "today":
 		normalData, err := M.GetApiData(params, "/v7/indices/1d?type=1,3,4,5,6,8,9,14,16&")
 		warningData, err := M.GetApiData(params, "/v7/warning/now?")
 
@@ -250,17 +250,48 @@ func (M *hefengModel) GetFormatData(params *helper.ParamWeatherInfo) (val *helpe
 				Temperature: v.Temp,
 			})
 		}
-
 	default:
 		xzap.Error("不存在该和风 api类似：" + params.WeatherType)
 		err = helper.ERROR_NOTICE_API
 		return
 	}
+
+	switch params.WeatherType {
+	case "today":
+		str, err := json.Marshal(val.Realtime)
+		if err == nil {
+			WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))
+		}
+	case "daily":
+		str, err := json.Marshal(val.Daily)
+		if err == nil {
+			WeatherModel.SetWeatherDailyData(fmt.Sprintf("%s", params.CityCode), string(str))
+			// 保存今天数据，提供给明天使用
+			lastDaily, err1 := json.Marshal(val.Daily[0])
+			if err1 == nil {
+				WeatherModel.SetLastDay(fmt.Sprintf("%s:%d", params.CityCode, currentTime.Day()), string(lastDaily))
+			}
+		}
+	case "hourly":
+		str, err := json.Marshal(val.Hourly)
+		if err == nil {
+			WeatherModel.SetWeatherHourlyData(fmt.Sprintf("%s", params.CityCode), string(str), currentTime)
+			// 保存当前数据，提供给下个小时使用
+			lastHourly, err1 := json.Marshal(val.Hourly[0])
+			if err1 == nil {
+				WeatherModel.SetLastHour(fmt.Sprintf("%s:%d", params.CityCode, currentTime.Hour()), string(lastHourly), currentTime)
+			}
+		}
+	default:
+		xzap.Error("不存在该和风 api 类型：" + params.WeatherType)
+		// TODO：通知飞书 和风 api  ERR
+	}
+
 	return val, nil
 }
 
 // 获取分钟级降水文案
-func (M *hefengModel) GetRainData(params *helper.ParamWeatherInfo) (desc string) {
+func (M *hefengModel) GetRainData(params *weather_mgr.WeatherReq) (desc string) {
 	// 分钟级降水   内层已打印返回结果
 	rainData, _ := M.GetApiData(params, "/v7/minutely/5m?")
 	if rainData != nil {
@@ -270,7 +301,7 @@ func (M *hefengModel) GetRainData(params *helper.ParamWeatherInfo) (desc string)
 }
 
 // 获取和风 通用数据
-func (M *hefengModel) GetApiData(params *helper.ParamWeatherInfo, api string) (val *HefengData, err error) {
+func (M *hefengModel) GetApiData(params *weather_mgr.WeatherReq, api string) (val *HefengData, err error) {
 	hefengHost := internal.GetApolloCli().GetStringValue("hefeng.host", "application", "")
 	hefengToken := internal.GetApolloCli().GetStringValue("hefeng.token", "application", "")
 	if hefengHost == "" || hefengToken == "" {
@@ -287,10 +318,6 @@ func (M *hefengModel) GetApiData(params *helper.ParamWeatherInfo, api string) (v
 		return
 	}
 	defer func() {
-		// if err != nil {
-		// 	// TODO：通知飞书 和风 api  ERR
-		// 	go helper.AlarmHandle.SendBot([]string{"darren.zhang"}, []string{}, []string{}, "和风api异常 \n 错误提示："+err.Error()+"\n 当前参数："+fmt.Sprintf("%+v \n path: %s ", params, path))
-		// }
 		resp.Body.Close()
 	}()
 	xzap.Debug("调用和风API ：", zap.Any("path:", path), zap.Any("params", params))
@@ -329,15 +356,15 @@ func (M *hefengModel) AsyncWeatherData() {
 					continue
 				}
 				params := data.Params
-				currentTime := params.Time
+				// currentTime := params.Time
+				currentTime := time.Now()
 				res, err := HefengModel.GetFormatData(params)
-				// res, err := XinzhiModel.GetFormatData(params)
 				if err != nil {
 					xzap.Error("和风 API 系统维护：" + err.Error())
 					continue
 				}
 				switch params.WeatherType {
-				case "info":
+				case "today":
 					str, err := json.Marshal(res.Realtime)
 					if err == nil {
 						WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))
@@ -368,28 +395,8 @@ func (M *hefengModel) AsyncWeatherData() {
 				}
 			} else {
 				// TODO：通知飞书 异步缓存异常关闭
-				// fmt.Println("channel 已关闭!")
 				break
 			}
-		}
-	}
-
-}
-
-func (M *hefengModel) CheckApi() {
-	ticker := time.NewTicker(2 * time.Second)
-	defer ticker.Stop()
-	for {
-		select {
-		case <-ticker.C:
-
-			data := helper.WeatherChanData{}
-			p := helper.ParamWeatherInfo{}
-			p.WeatherType = "heart"
-			data.Params = &p
-			// 定时器  心跳检测
-			WeatherChan <- data
-
 		}
 	}
 

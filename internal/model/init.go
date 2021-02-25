@@ -2,44 +2,28 @@ package model
 
 import (
 	"context"
-	"database/sql"
 	"github.com/go-redis/redis"
 	"strconv"
 	"time"
+	"weather_mgr/internal"
+	"weather_mgr/pkg/xredis"
+	"weather_mgr/pkg/xzap"
 )
 
 var (
-	migRwDbHandle *sql.DB
-	migRoDbHandle *sql.DB
-	redisClient   *redis.Client
+	redisClient *redis.Client
 )
-
-var (
-	CoinModel *coinModel
-)
+var err error
 
 func init() {
-	// var err error
-	// CoinModel = new(coinModel)
-	// // 初始化 mysql
-	// rwDBDsn := internal.GetApolloCli().GetStringValue("mig_rw_db.dsn", "application", "")
-	// roDBDsn := internal.GetApolloCli().GetStringValue("mig_ro_db.dsn", "application", "")
-	// //init handle
-	// if migRwDbHandle, err = xmysql.NewMysql(rwDBDsn); err != nil {
-	// 	panic(err)
-	// }
-	// if migRoDbHandle, err = xmysql.NewMysql(roDBDsn); err != nil {
-	// 	panic(err)
-	// }
-	//
-	// // 初始化 redis
-	// redisAddr := internal.GetApolloCli().GetStringValue("redis.addr", "application", "")
-	// redisPWD := internal.GetApolloCli().GetStringValue("redis.password", "application", "")
-	// redisDB := internal.GetApolloCli().GetIntValue("redis.db", "application", 0)
-	// if redisClient, err = xredis.NewClient(redisAddr, redisPWD, redisDB); err != nil {
-	// 	log.Println("err:", err)
-	// 	panic(err)
-	// }
+	// 初始化 redis
+	redisAddr := internal.GetApolloCli().GetStringValue("redis.addr", "application", "")
+	redisPWD := internal.GetApolloCli().GetStringValue("redis.password", "application", "")
+	redisDB := internal.GetApolloCli().GetIntValue("redis.db", "application", 0)
+	if redisClient, err = xredis.NewClient(redisAddr, redisPWD, redisDB); err != nil {
+		xzap.Debug(err.Error())
+		panic(err)
+	}
 }
 
 func GetTimeNow(ctx context.Context) time.Time {
