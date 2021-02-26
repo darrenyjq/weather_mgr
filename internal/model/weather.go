@@ -23,10 +23,7 @@ func init() {
 }
 
 // 获取上一天数据
-func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string) (lastData []*weather_mgr.DailyStyle) {
-
-	currentTime := GetTimeNow(ctx)
-
+func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string, currentTime time.Time) (lastData []*weather_mgr.DailyStyle) {
 	// 可以忽略月初 1 号问题
 	var lastDayTime int
 	lastDayTime = currentTime.AddDate(0, 0, -1).Day()
@@ -45,8 +42,7 @@ func (M *weatherModel) GetLastDayData(ctx context.Context, cityCode string) (las
 }
 
 // 获取上一小时数据
-func (M *weatherModel) GetLastHourlyData(ctx context.Context, cityCode string) (lastData []*weather_mgr.HourlyStyle) {
-	currentTime := GetTimeNow(ctx)
+func (M *weatherModel) GetLastHourlyData(ctx context.Context, cityCode string, currentTime time.Time) (lastData []*weather_mgr.HourlyStyle) {
 	// 可以忽略 0 点
 	timestamp := currentTime.Add(-time.Hour).Hour()
 

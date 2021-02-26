@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+import "cootek.pgd.ysession.proto";
+
 package cootek.pgd.weather_mgr;
 option go_package = "weather_mgr/cootek/pgd/weather_mgr";
 
 message WeatherReq {
+    ysession.SessionParam sessionBase = 8;
     double lng = 1;
     double lat = 2;
     string city_code = 3;

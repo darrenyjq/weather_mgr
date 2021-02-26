@@ -45,3 +45,12 @@ func MsToTime(ms string) (time.Time, error) {
 	tm := time.Unix(0, msInt*int64(time.Millisecond))
 	return tm, nil
 }
+
+func MsIntToTime(msInt int64) (time.Time, error) {
+	if msInt == 0 {
+		println(222)
+		return time.Now(), nil
+	}
+	tm := time.Unix(0, msInt*int64(time.Second))
+	return tm, nil
+}

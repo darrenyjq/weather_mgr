@@ -16,6 +16,7 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
+	ysession "weather_mgr/cootek/pgd/ysession"
 )
 
 const (
@@ -34,13 +35,14 @@ type WeatherReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Lng         float64 `protobuf:"fixed64,1,opt,name=lng,proto3" json:"lng,omitempty"`
-	Lat         float64 `protobuf:"fixed64,2,opt,name=lat,proto3" json:"lat,omitempty"`
-	CityCode    string  `protobuf:"bytes,3,opt,name=city_code,json=cityCode,proto3" json:"city_code,omitempty"`
-	TestGroup   string  `protobuf:"bytes,4,opt,name=test_group,json=testGroup,proto3" json:"test_group,omitempty"`       // 实验组
-	WeatherType string  `protobuf:"bytes,5,opt,name=weather_type,json=weatherType,proto3" json:"weather_type,omitempty"` // 查看天气的类型
-	Uid         uint64  `protobuf:"varint,6,opt,name=uid,proto3" json:"uid,omitempty"`                                   // ass
-	ApiType     string  `protobuf:"bytes,7,opt,name=api_type,json=apiType,proto3" json:"api_type,omitempty"`             // api类型
+	SessionBase *ysession.SessionParam `protobuf:"bytes,8,opt,name=sessionBase,proto3" json:"sessionBase,omitempty"`
+	Lng         float64                `protobuf:"fixed64,1,opt,name=lng,proto3" json:"lng,omitempty"`
+	Lat         float64                `protobuf:"fixed64,2,opt,name=lat,proto3" json:"lat,omitempty"`
+	CityCode    string                 `protobuf:"bytes,3,opt,name=city_code,json=cityCode,proto3" json:"city_code,omitempty"`
+	TestGroup   string                 `protobuf:"bytes,4,opt,name=test_group,json=testGroup,proto3" json:"test_group,omitempty"`       // 实验组
+	WeatherType string                 `protobuf:"bytes,5,opt,name=weather_type,json=weatherType,proto3" json:"weather_type,omitempty"` // 查看天气的类型
+	Uid         uint64                 `protobuf:"varint,6,opt,name=uid,proto3" json:"uid,omitempty"`                                   // ass
+	ApiType     string                 `protobuf:"bytes,7,opt,name=api_type,json=apiType,proto3" json:"api_type,omitempty"`             // api类型
 }
 
 func (x *WeatherReq) Reset() {
@@ -73,6 +75,13 @@ func (x *WeatherReq) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WeatherReq.ProtoReflect.Descriptor instead.
 func (*WeatherReq) Descriptor() ([]byte, []int) {
 	return file_cootek_pgd_weather_mgr_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *WeatherReq) GetSessionBase() *ysession.SessionParam {
+	if x != nil {
+		return x.SessionBase
+	}
+	return nil
 }
 
 func (x *WeatherReq) GetLng() float64 {
@@ -580,8 +589,14 @@ var file_cootek_pgd_weather_mgr_proto_rawDesc = []byte{
 	0x0a, 0x1c, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64, 0x2e, 0x77, 0x65, 0x61,
 	0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x16,
 	0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64, 0x2e, 0x77, 0x65, 0x61, 0x74, 0x68,
-	0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x22, 0xbc, 0x01, 0x0a, 0x0a, 0x57, 0x65, 0x61, 0x74, 0x68,
-	0x65, 0x72, 0x52, 0x65, 0x71, 0x12, 0x10, 0x0a, 0x03, 0x6c, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01,
+	0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x1a, 0x19, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70,
+	0x67, 0x64, 0x2e, 0x79, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x22, 0x81, 0x02, 0x0a, 0x0a, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x12, 0x43, 0x0a, 0x0b, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x61, 0x73, 0x65, 0x18,
+	0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70,
+	0x67, 0x64, 0x2e, 0x79, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x65, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x52, 0x0b, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f,
+	0x6e, 0x42, 0x61, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6c, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x01, 0x52, 0x03, 0x6c, 0x6e, 0x67, 0x12, 0x10, 0x0a, 0x03, 0x6c, 0x61, 0x74, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c, 0x61, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x69, 0x74,
 	0x79, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x69,
@@ -686,29 +701,31 @@ func file_cootek_pgd_weather_mgr_proto_rawDescGZIP() []byte {
 
 var file_cootek_pgd_weather_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_cootek_pgd_weather_mgr_proto_goTypes = []interface{}{
-	(*WeatherReq)(nil),     // 0: cootek.pgd.weather_mgr.WeatherReq
-	(*HourlyResp)(nil),     // 1: cootek.pgd.weather_mgr.HourlyResp
-	(*DailyResp)(nil),      // 2: cootek.pgd.weather_mgr.DailyResp
-	(*HourlyStyle)(nil),    // 3: cootek.pgd.weather_mgr.HourlyStyle
-	(*DailyStyle)(nil),     // 4: cootek.pgd.weather_mgr.DailyStyle
-	(*TodayResp)(nil),      // 5: cootek.pgd.weather_mgr.TodayResp
-	(*LifeSuggestion)(nil), // 6: cootek.pgd.weather_mgr.LifeSuggestion
+	(*WeatherReq)(nil),            // 0: cootek.pgd.weather_mgr.WeatherReq
+	(*HourlyResp)(nil),            // 1: cootek.pgd.weather_mgr.HourlyResp
+	(*DailyResp)(nil),             // 2: cootek.pgd.weather_mgr.DailyResp
+	(*HourlyStyle)(nil),           // 3: cootek.pgd.weather_mgr.HourlyStyle
+	(*DailyStyle)(nil),            // 4: cootek.pgd.weather_mgr.DailyStyle
+	(*TodayResp)(nil),             // 5: cootek.pgd.weather_mgr.TodayResp
+	(*LifeSuggestion)(nil),        // 6: cootek.pgd.weather_mgr.LifeSuggestion
+	(*ysession.SessionParam)(nil), // 7: cootek.pgd.ysession.SessionParam
 }
 var file_cootek_pgd_weather_mgr_proto_depIdxs = []int32{
-	3, // 0: cootek.pgd.weather_mgr.HourlyResp.list:type_name -> cootek.pgd.weather_mgr.HourlyStyle
-	4, // 1: cootek.pgd.weather_mgr.DailyResp.list:type_name -> cootek.pgd.weather_mgr.DailyStyle
-	6, // 2: cootek.pgd.weather_mgr.TodayResp.life_suggestion:type_name -> cootek.pgd.weather_mgr.LifeSuggestion
-	0, // 3: cootek.pgd.weather_mgr.WeatherMgr.Hourly:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	0, // 4: cootek.pgd.weather_mgr.WeatherMgr.Daily:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	0, // 5: cootek.pgd.weather_mgr.WeatherMgr.Today:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	1, // 6: cootek.pgd.weather_mgr.WeatherMgr.Hourly:output_type -> cootek.pgd.weather_mgr.HourlyResp
-	2, // 7: cootek.pgd.weather_mgr.WeatherMgr.Daily:output_type -> cootek.pgd.weather_mgr.DailyResp
-	5, // 8: cootek.pgd.weather_mgr.WeatherMgr.Today:output_type -> cootek.pgd.weather_mgr.TodayResp
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7, // 0: cootek.pgd.weather_mgr.WeatherReq.sessionBase:type_name -> cootek.pgd.ysession.SessionParam
+	3, // 1: cootek.pgd.weather_mgr.HourlyResp.list:type_name -> cootek.pgd.weather_mgr.HourlyStyle
+	4, // 2: cootek.pgd.weather_mgr.DailyResp.list:type_name -> cootek.pgd.weather_mgr.DailyStyle
+	6, // 3: cootek.pgd.weather_mgr.TodayResp.life_suggestion:type_name -> cootek.pgd.weather_mgr.LifeSuggestion
+	0, // 4: cootek.pgd.weather_mgr.WeatherMgr.Hourly:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	0, // 5: cootek.pgd.weather_mgr.WeatherMgr.Daily:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	0, // 6: cootek.pgd.weather_mgr.WeatherMgr.Today:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	1, // 7: cootek.pgd.weather_mgr.WeatherMgr.Hourly:output_type -> cootek.pgd.weather_mgr.HourlyResp
+	2, // 8: cootek.pgd.weather_mgr.WeatherMgr.Daily:output_type -> cootek.pgd.weather_mgr.DailyResp
+	5, // 9: cootek.pgd.weather_mgr.WeatherMgr.Today:output_type -> cootek.pgd.weather_mgr.TodayResp
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_cootek_pgd_weather_mgr_proto_init() }

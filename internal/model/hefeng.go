@@ -255,38 +255,6 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 		err = helper.ERROR_NOTICE_API
 		return
 	}
-
-	switch params.WeatherType {
-	case "today":
-		str, err := json.Marshal(val.Realtime)
-		if err == nil {
-			WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))
-		}
-	case "daily":
-		str, err := json.Marshal(val.Daily)
-		if err == nil {
-			WeatherModel.SetWeatherDailyData(fmt.Sprintf("%s", params.CityCode), string(str))
-			// 保存今天数据，提供给明天使用
-			lastDaily, err1 := json.Marshal(val.Daily[0])
-			if err1 == nil {
-				WeatherModel.SetLastDay(fmt.Sprintf("%s:%d", params.CityCode, currentTime.Day()), string(lastDaily))
-			}
-		}
-	case "hourly":
-		str, err := json.Marshal(val.Hourly)
-		if err == nil {
-			WeatherModel.SetWeatherHourlyData(fmt.Sprintf("%s", params.CityCode), string(str), currentTime)
-			// 保存当前数据，提供给下个小时使用
-			lastHourly, err1 := json.Marshal(val.Hourly[0])
-			if err1 == nil {
-				WeatherModel.SetLastHour(fmt.Sprintf("%s:%d", params.CityCode, currentTime.Hour()), string(lastHourly), currentTime)
-			}
-		}
-	default:
-		xzap.Error("不存在该和风 api 类型：" + params.WeatherType)
-		// TODO：通知飞书 和风 api  ERR
-	}
-
 	return val, nil
 }
 
