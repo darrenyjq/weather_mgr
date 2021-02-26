@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"go.uber.org/zap"
 	"log"
 	"weather_mgr/cootek/pgd/weather_mgr"
+	"weather_mgr/pkg/xzap"
 
 	"gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
 	"google.golang.org/grpc"
@@ -27,8 +29,10 @@ func grpcServer() {
 	// 拦截器
 	var interceptor grpc.UnaryServerInterceptor
 	interceptor = func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		xzap.Info("params:", zap.Any("", req))
 		// 继续处理请求
 		resp, err = handler(ctx, req)
+		xzap.Info("resp:", zap.Any("", resp))
 
 		// 转换grpc类型错误码
 		var errCode int64
@@ -42,9 +46,7 @@ func grpcServer() {
 	// 添加拦截器
 	sdk.SetupApplicationServerInterceptor(interceptor)
 	// 注册要调用的下游服务，多个就调用多次
-	// sdk.ProcessServiceMeta("cootek.pgd.config_service.proto")
 	sdk.AddNormalProtoFileToMetadatda("cootek.pgd.ysession.proto")
-	// sdk.AddNormalProtoFileToMetadatda("cootek.bdp.log.proto")
 	sdk.AddNormalProtoFileToMetadatda("account.proto")
 	sdk.AddServiceProtoFileToMetadata("cootek.pgd.weather_mgr.proto")
 	server := sdk.NewGrpcServer(sdk.EMPTY_RROTOS)
