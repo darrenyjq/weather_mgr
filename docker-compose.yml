@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  ########################  redis  ########################
+  weathers-redis:
+    container_name: weathers-redis
+    image: bitnami/redis:latest
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6377:6379
+    ##################  weathers ##################
+  weathers:
+    container_name: weathers
+    image: "harbor.cootekservice.com/mig_one/weather_mgr:${TAG}"
+    restart: always
+    environment:
+      - LOCATION=cn
+      - CUSTOM_RUNTIME_ENV=DEV
+      - CONF_SERVER=not-conf-server
+      - ELETE_PROXY_HOST=elete-proxy-dev.cootekos.com:1921
+      - SERVICE=cootek.mig_one.weather_mgr
+      - APOLLO_ACCESSKEY_SECRET=ed56da201d8d4575bc1cd2b233018184
+      - STDERR_REDIRECT=0
+      - HOSTNAME=127.0.0.1
+    volumes:
+      - "~/ssd/:/ssd/"
+    depends_on:
+      - weathers-redis
+    ports:
+      - 92:92
