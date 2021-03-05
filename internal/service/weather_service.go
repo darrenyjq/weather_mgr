@@ -144,6 +144,7 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 
 	if err == nil {
 		err1 := json.Unmarshal([]byte(res), &data)
+
 		if err1 == nil {
 			day := currentTime.Day()
 			reDay := time.Unix(data.Date, 0).Day()
