@@ -250,6 +250,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 				Temperature: v.Temp,
 			})
 		}
+
 	default:
 		xzap.Error("不存在该和风 api类似：" + params.WeatherType)
 		err = helper.ERROR_NOTICE_API

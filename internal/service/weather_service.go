@@ -59,21 +59,20 @@ func (w *WeatherService) Hourly(ctx context.Context, params *weather_mgr.Weather
 				}
 			}
 
-			// 最近时间和当前时间不符时通知更新缓存
-			if sign > 0 {
-				go sendWeatherChan(params)
-			}
 		}
 	}
 	if len(resp.List) < 15 {
 		res, err := model.HefengModel.GetFormatData(params)
 		resp := new(weather_mgr.HourlyResp)
 		if err == nil && len(res.Hourly) > 0 {
+			sign++
 			resp.List = res.Hourly
-			// temperature = resp.List[0].Temperature
 		}
 	}
-
+	// 最近时间和当前时间不符时通知更新缓存
+	if sign > 0 {
+		go sendWeatherChan(params)
+	}
 	// // save  提供给温差奖励用
 	// temp, err1 := strconv.ParseFloat(temperature, 64)
 	// if err1 == nil {
@@ -89,24 +88,22 @@ func (w *WeatherService) Daily(ctx context.Context, params *weather_mgr.WeatherR
 	resp.List = []*weather_mgr.DailyStyle{}
 	params.WeatherType = "daily"
 	res, err := model.WeatherModel.GetWeatherDailyData(fmt.Sprintf("%s", params.CityCode))
+	sign := 0
+
 	if err == nil {
 		err1 := json.Unmarshal([]byte(res), &resp.List)
 		if err1 == nil {
 			currentTime, _ := model.MsIntToTime(params.SessionBase.SendTsMillisec)
-			day := currentTime.Day()
-			sign := 0
 			// 防止缓存数据过老，循环截去老数据
 			for _, v := range resp.List {
-				if v.Date < currentTime.Unix() {
+				if v.Date < currentTime.Unix()-86400 {
 					sign++
 					continue
 				}
 			}
 			// 最近时间和当前时间不符时通知更新缓存
 			reDay := time.Unix(resp.List[0].Date, 0).Day()
-			if reDay != day {
-				go sendWeatherChan(params)
-			}
+
 			// 防止超长
 			if sign > 0 {
 				resp.List = resp.List[sign-1:]
@@ -127,9 +124,13 @@ func (w *WeatherService) Daily(ctx context.Context, params *weather_mgr.WeatherR
 		res, err := model.HefengModel.GetFormatData(params)
 		if err == nil {
 			resp.List = res.Daily
+			sign++
+
 		}
 	}
-
+	if sign > 0 {
+		go sendWeatherChan(params)
+	}
 	return resp, nil
 }
 
