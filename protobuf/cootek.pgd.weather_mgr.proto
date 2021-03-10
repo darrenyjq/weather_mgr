@@ -49,6 +49,19 @@ message TodayResp {
     int64 date = 8;
 }
 
+message WarningListResp {
+    repeated Warning list = 1; // 预警列表
+}
+
+message Warning {
+    string warning_title = 2; // 预警抬头
+    string warning_level = 3; // 预警级别
+    string warning_type = 4; // 预警类型
+    string warning_type_en = 5; // 预警类型英文
+    string sender = 6; // 发布者
+    string alert_desc = 7; // 预警详细文字描述
+}
+
 message LifeSuggestion {
     string dressing = 1; // 穿衣指数
     string fishing = 2; // 钓鱼指数
@@ -69,6 +82,10 @@ service WeatherMgr {
     }
     // 当天生活指数情况
     rpc Today (WeatherReq) returns (TodayResp) {
+    }
+
+    // 预警列表
+    rpc WarningList (WeatherReq) returns (WarningListResp) {
     }
 
 }

@@ -98,16 +98,16 @@ type HefengData struct {
 	} `json:"hourly"`
 	Warning []struct {
 		// ID        string `json:"id"`
-		// Sender    string `json:"sender"`
-		// PubTime   string `json:"pubTime"`
-		// Title     string `json:"title"`
+		Sender  string `json:"sender"`
+		PubTime string `json:"pubTime"`
+		Title   string `json:"title"`
 		// StartTime string `json:"startTime"`
 		// EndTime   string `json:"endTime"`
 		// Status    string `json:"status"`
-		// Level     string `json:"level"`
-		// Type      string `json:"type"`
-		// TypeName  string `json:"typeName"`
-		Text string `json:"text"` // 预警详细文字描述
+		Level string `json:"level"`
+		// Type     string `json:"type"`
+		TypeName string `json:"typeName"`
+		Text     string `json:"text"` // 预警详细文字描述
 		// Related   string `json:"related"`
 	} `json:"warning"`
 }
@@ -126,9 +126,49 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 	// currentTime := params.Time
 	currentTime := time.Now()
 	switch params.WeatherType {
+	case "warning":
+		warningData, err := M.GetApiData(params, "/v7/warning/now?")
+		if err != nil {
+			xzap.Error("和风 API 系统维护：" + err.Error())
+			return nil, err
+		}
+		var alertDesc, level, title, typeName, sender, typeNameEg string
+		val.WarningList = new(weather_mgr.WarningListResp)
+		val.WarningList.List = make([]*weather_mgr.Warning, 0)
+		// 存在预警拉文案
+		for _, v := range warningData.Warning {
+			alertDesc = v.Text
+			level = helper.GetWarningLevel(v.Level)
+			title = v.Title
+			typeName = v.TypeName
+			typeNameEg = helper.GetWarningTypeName(v.TypeName)
+			t, err1 := time.ParseInLocation("2006-01-02T15:04", strings.Split(v.PubTime, "+")[0], time.Local)
+			if err1 != nil {
+				xzap.Error("时间格式转化失败" + err1.Error())
+				t = time.Now()
+			}
+			// 拼成发布者发布时间文案
+			sender = v.Sender + t.Format("2006年01月02日15点") + "发布"
+			val.WarningList.List = append(val.WarningList.List, &weather_mgr.Warning{
+				WarningLevel:  level,
+				WarningTitle:  title,
+				WarningType:   typeName,
+				WarningTypeEn: typeNameEg,
+				AlertDesc:     alertDesc,
+				Sender:        sender,
+			})
+		}
+		// 缓存预警 1 小时
+		if len(val.WarningList.List) > 0 {
+			str, err := json.Marshal(val.WarningList.List)
+			if err == nil {
+				WeatherModel.SetWarningList(fmt.Sprintf("%s", params.CityCode), string(str))
+			}
+		}
+
 	case "today":
 		normalData, err := M.GetApiData(params, "/v7/indices/1d?type=1,3,4,5,6,8,9,14,16&")
-		warningData, err := M.GetApiData(params, "/v7/warning/now?")
+		// warningData, err := M.GetApiData(params, "/v7/warning/now?")
 
 		if err != nil {
 			xzap.Error("和风 API 系统维护：" + err.Error())
@@ -172,10 +212,6 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			default:
 				continue
 			}
-		}
-
-		if normalData.Warning != nil && len(warningData.Warning) > 0 {
-			alertDesc = warningData.Warning[0].Text
 		}
 
 		val.Realtime = &weather_mgr.TodayResp{

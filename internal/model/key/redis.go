@@ -244,6 +244,11 @@ func RedisKvWeatherRealTimeData(cityCode string) string {
 	return fmt.Sprintf("weather:real_time:data:%s", cityCode)
 }
 
+// 天气预警
+func RedisWarningList(cityCode string) string {
+	return fmt.Sprintf("weather:warning_list:%s", cityCode)
+}
+
 // 天气数据/天
 func RedisKvWeatherDailyData(cityCode string) string {
 	return fmt.Sprintf("weather:daily:data:%s", cityCode)

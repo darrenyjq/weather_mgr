@@ -488,6 +488,140 @@ func (x *TodayResp) GetDate() int64 {
 	return 0
 }
 
+type WarningListResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	List []*Warning `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"` // 预警列表
+}
+
+func (x *WarningListResp) Reset() {
+	*x = WarningListResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WarningListResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WarningListResp) ProtoMessage() {}
+
+func (x *WarningListResp) ProtoReflect() protoreflect.Message {
+	mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WarningListResp.ProtoReflect.Descriptor instead.
+func (*WarningListResp) Descriptor() ([]byte, []int) {
+	return file_cootek_pgd_weather_mgr_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *WarningListResp) GetList() []*Warning {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+type Warning struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WarningTitle  string `protobuf:"bytes,2,opt,name=warning_title,json=warningTitle,proto3" json:"warning_title,omitempty"`      // 预警抬头
+	WarningLevel  string `protobuf:"bytes,3,opt,name=warning_level,json=warningLevel,proto3" json:"warning_level,omitempty"`      // 预警级别
+	WarningType   string `protobuf:"bytes,4,opt,name=warning_type,json=warningType,proto3" json:"warning_type,omitempty"`         // 预警类型
+	WarningTypeEn string `protobuf:"bytes,5,opt,name=warning_type_en,json=warningTypeEn,proto3" json:"warning_type_en,omitempty"` // 预警类型英文
+	Sender        string `protobuf:"bytes,6,opt,name=sender,proto3" json:"sender,omitempty"`                                      // 发布者
+	AlertDesc     string `protobuf:"bytes,7,opt,name=alert_desc,json=alertDesc,proto3" json:"alert_desc,omitempty"`               // 预警详细文字描述
+}
+
+func (x *Warning) Reset() {
+	*x = Warning{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Warning) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Warning) ProtoMessage() {}
+
+func (x *Warning) ProtoReflect() protoreflect.Message {
+	mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Warning.ProtoReflect.Descriptor instead.
+func (*Warning) Descriptor() ([]byte, []int) {
+	return file_cootek_pgd_weather_mgr_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *Warning) GetWarningTitle() string {
+	if x != nil {
+		return x.WarningTitle
+	}
+	return ""
+}
+
+func (x *Warning) GetWarningLevel() string {
+	if x != nil {
+		return x.WarningLevel
+	}
+	return ""
+}
+
+func (x *Warning) GetWarningType() string {
+	if x != nil {
+		return x.WarningType
+	}
+	return ""
+}
+
+func (x *Warning) GetWarningTypeEn() string {
+	if x != nil {
+		return x.WarningTypeEn
+	}
+	return ""
+}
+
+func (x *Warning) GetSender() string {
+	if x != nil {
+		return x.Sender
+	}
+	return ""
+}
+
+func (x *Warning) GetAlertDesc() string {
+	if x != nil {
+		return x.AlertDesc
+	}
+	return ""
+}
+
 type LifeSuggestion struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -505,7 +639,7 @@ type LifeSuggestion struct {
 func (x *LifeSuggestion) Reset() {
 	*x = LifeSuggestion{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[6]
+		mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -518,7 +652,7 @@ func (x *LifeSuggestion) String() string {
 func (*LifeSuggestion) ProtoMessage() {}
 
 func (x *LifeSuggestion) ProtoReflect() protoreflect.Message {
-	mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[6]
+	mi := &file_cootek_pgd_weather_mgr_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +665,7 @@ func (x *LifeSuggestion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifeSuggestion.ProtoReflect.Descriptor instead.
 func (*LifeSuggestion) Descriptor() ([]byte, []int) {
-	return file_cootek_pgd_weather_mgr_proto_rawDescGZIP(), []int{6}
+	return file_cootek_pgd_weather_mgr_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *LifeSuggestion) GetDressing() string {
@@ -654,7 +788,25 @@ var file_cootek_pgd_weather_mgr_proto_rawDesc = []byte{
 	0x4c, 0x69, 0x66, 0x65, 0x53, 0x75, 0x67, 0x67, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0e,
 	0x6c, 0x69, 0x66, 0x65, 0x53, 0x75, 0x67, 0x67, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12,
 	0x0a, 0x04, 0x64, 0x61, 0x74, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x64, 0x61,
-	0x74, 0x65, 0x22, 0xae, 0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x66, 0x65, 0x53, 0x75, 0x67, 0x67, 0x65,
+	0x74, 0x65, 0x22, 0x46, 0x0a, 0x0f, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x4c, 0x69, 0x73,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x12, 0x33, 0x0a, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64,
+	0x2e, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x57, 0x61, 0x72,
+	0x6e, 0x69, 0x6e, 0x67, 0x52, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x22, 0xd5, 0x01, 0x0a, 0x07, 0x57,
+	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x12, 0x23, 0x0a, 0x0d, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e,
+	0x67, 0x5f, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x77,
+	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x77,
+	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x5f, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x4c, 0x65, 0x76, 0x65, 0x6c,
+	0x12, 0x21, 0x0a, 0x0c, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x5f, 0x74, 0x79, 0x70, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x54,
+	0x79, 0x70, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x5f, 0x74,
+	0x79, 0x70, 0x65, 0x5f, 0x65, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x77, 0x61,
+	0x72, 0x6e, 0x69, 0x6e, 0x67, 0x54, 0x79, 0x70, 0x65, 0x45, 0x6e, 0x12, 0x16, 0x0a, 0x06, 0x73,
+	0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x6e,
+	0x64, 0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x5f, 0x64, 0x65, 0x73,
+	0x63, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x44, 0x65,
+	0x73, 0x63, 0x22, 0xae, 0x01, 0x0a, 0x0e, 0x4c, 0x69, 0x66, 0x65, 0x53, 0x75, 0x67, 0x67, 0x65,
 	0x73, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6e,
 	0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x64, 0x72, 0x65, 0x73, 0x73, 0x69, 0x6e,
 	0x67, 0x12, 0x18, 0x0a, 0x07, 0x66, 0x69, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01,
@@ -665,7 +817,7 @@ var file_cootek_pgd_weather_mgr_proto_rawDesc = []byte{
 	0x02, 0x75, 0x76, 0x12, 0x16, 0x0a, 0x06, 0x74, 0x72, 0x61, 0x76, 0x65, 0x6c, 0x18, 0x06, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x72, 0x61, 0x76, 0x65, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x61,
 	0x69, 0x72, 0x69, 0x6e, 0x67, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x69, 0x72,
-	0x69, 0x6e, 0x67, 0x32, 0x84, 0x02, 0x0a, 0x0a, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x4d,
+	0x69, 0x6e, 0x67, 0x32, 0xe2, 0x02, 0x0a, 0x0a, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x4d,
 	0x67, 0x72, 0x12, 0x52, 0x0a, 0x06, 0x48, 0x6f, 0x75, 0x72, 0x6c, 0x79, 0x12, 0x22, 0x2e, 0x63,
 	0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64, 0x2e, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65,
 	0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x52, 0x65, 0x71,
@@ -681,10 +833,16 @@ var file_cootek_pgd_weather_mgr_proto_rawDesc = []byte{
 	0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x57, 0x65, 0x61, 0x74, 0x68,
 	0x65, 0x72, 0x52, 0x65, 0x71, 0x1a, 0x21, 0x2e, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70,
 	0x67, 0x64, 0x2e, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x54,
-	0x6f, 0x64, 0x61, 0x79, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x42, 0x24, 0x5a, 0x22, 0x77, 0x65,
-	0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2f, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b,
-	0x2f, 0x70, 0x67, 0x64, 0x2f, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x64, 0x61, 0x79, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x12, 0x5c, 0x0a, 0x0b, 0x57, 0x61,
+	0x72, 0x6e, 0x69, 0x6e, 0x67, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x22, 0x2e, 0x63, 0x6f, 0x6f, 0x74,
+	0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64, 0x2e, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d,
+	0x67, 0x72, 0x2e, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x52, 0x65, 0x71, 0x1a, 0x27, 0x2e,
+	0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2e, 0x70, 0x67, 0x64, 0x2e, 0x77, 0x65, 0x61, 0x74, 0x68,
+	0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2e, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x4c, 0x69,
+	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x42, 0x24, 0x5a, 0x22, 0x77, 0x65, 0x61, 0x74,
+	0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x2f, 0x63, 0x6f, 0x6f, 0x74, 0x65, 0x6b, 0x2f, 0x70,
+	0x67, 0x64, 0x2f, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65, 0x72, 0x5f, 0x6d, 0x67, 0x72, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -699,7 +857,7 @@ func file_cootek_pgd_weather_mgr_proto_rawDescGZIP() []byte {
 	return file_cootek_pgd_weather_mgr_proto_rawDescData
 }
 
-var file_cootek_pgd_weather_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_cootek_pgd_weather_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_cootek_pgd_weather_mgr_proto_goTypes = []interface{}{
 	(*WeatherReq)(nil),            // 0: cootek.pgd.weather_mgr.WeatherReq
 	(*HourlyResp)(nil),            // 1: cootek.pgd.weather_mgr.HourlyResp
@@ -707,25 +865,30 @@ var file_cootek_pgd_weather_mgr_proto_goTypes = []interface{}{
 	(*HourlyStyle)(nil),           // 3: cootek.pgd.weather_mgr.HourlyStyle
 	(*DailyStyle)(nil),            // 4: cootek.pgd.weather_mgr.DailyStyle
 	(*TodayResp)(nil),             // 5: cootek.pgd.weather_mgr.TodayResp
-	(*LifeSuggestion)(nil),        // 6: cootek.pgd.weather_mgr.LifeSuggestion
-	(*ysession.SessionParam)(nil), // 7: cootek.pgd.ysession.SessionParam
+	(*WarningListResp)(nil),       // 6: cootek.pgd.weather_mgr.WarningListResp
+	(*Warning)(nil),               // 7: cootek.pgd.weather_mgr.Warning
+	(*LifeSuggestion)(nil),        // 8: cootek.pgd.weather_mgr.LifeSuggestion
+	(*ysession.SessionParam)(nil), // 9: cootek.pgd.ysession.SessionParam
 }
 var file_cootek_pgd_weather_mgr_proto_depIdxs = []int32{
-	7, // 0: cootek.pgd.weather_mgr.WeatherReq.sessionBase:type_name -> cootek.pgd.ysession.SessionParam
+	9, // 0: cootek.pgd.weather_mgr.WeatherReq.sessionBase:type_name -> cootek.pgd.ysession.SessionParam
 	3, // 1: cootek.pgd.weather_mgr.HourlyResp.list:type_name -> cootek.pgd.weather_mgr.HourlyStyle
 	4, // 2: cootek.pgd.weather_mgr.DailyResp.list:type_name -> cootek.pgd.weather_mgr.DailyStyle
-	6, // 3: cootek.pgd.weather_mgr.TodayResp.life_suggestion:type_name -> cootek.pgd.weather_mgr.LifeSuggestion
-	0, // 4: cootek.pgd.weather_mgr.WeatherMgr.Hourly:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	0, // 5: cootek.pgd.weather_mgr.WeatherMgr.Daily:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	0, // 6: cootek.pgd.weather_mgr.WeatherMgr.Today:input_type -> cootek.pgd.weather_mgr.WeatherReq
-	1, // 7: cootek.pgd.weather_mgr.WeatherMgr.Hourly:output_type -> cootek.pgd.weather_mgr.HourlyResp
-	2, // 8: cootek.pgd.weather_mgr.WeatherMgr.Daily:output_type -> cootek.pgd.weather_mgr.DailyResp
-	5, // 9: cootek.pgd.weather_mgr.WeatherMgr.Today:output_type -> cootek.pgd.weather_mgr.TodayResp
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 3: cootek.pgd.weather_mgr.TodayResp.life_suggestion:type_name -> cootek.pgd.weather_mgr.LifeSuggestion
+	7, // 4: cootek.pgd.weather_mgr.WarningListResp.list:type_name -> cootek.pgd.weather_mgr.Warning
+	0, // 5: cootek.pgd.weather_mgr.WeatherMgr.Hourly:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	0, // 6: cootek.pgd.weather_mgr.WeatherMgr.Daily:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	0, // 7: cootek.pgd.weather_mgr.WeatherMgr.Today:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	0, // 8: cootek.pgd.weather_mgr.WeatherMgr.WarningList:input_type -> cootek.pgd.weather_mgr.WeatherReq
+	1, // 9: cootek.pgd.weather_mgr.WeatherMgr.Hourly:output_type -> cootek.pgd.weather_mgr.HourlyResp
+	2, // 10: cootek.pgd.weather_mgr.WeatherMgr.Daily:output_type -> cootek.pgd.weather_mgr.DailyResp
+	5, // 11: cootek.pgd.weather_mgr.WeatherMgr.Today:output_type -> cootek.pgd.weather_mgr.TodayResp
+	6, // 12: cootek.pgd.weather_mgr.WeatherMgr.WarningList:output_type -> cootek.pgd.weather_mgr.WarningListResp
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_cootek_pgd_weather_mgr_proto_init() }
@@ -807,6 +970,30 @@ func file_cootek_pgd_weather_mgr_proto_init() {
 			}
 		}
 		file_cootek_pgd_weather_mgr_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WarningListResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cootek_pgd_weather_mgr_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Warning); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cootek_pgd_weather_mgr_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*LifeSuggestion); i {
 			case 0:
 				return &v.state
@@ -825,7 +1012,7 @@ func file_cootek_pgd_weather_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cootek_pgd_weather_mgr_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -857,6 +1044,8 @@ type WeatherMgrClient interface {
 	Daily(ctx context.Context, in *WeatherReq, opts ...grpc.CallOption) (*DailyResp, error)
 	// 当天生活指数情况
 	Today(ctx context.Context, in *WeatherReq, opts ...grpc.CallOption) (*TodayResp, error)
+	// 预警列表
+	WarningList(ctx context.Context, in *WeatherReq, opts ...grpc.CallOption) (*WarningListResp, error)
 }
 
 type weatherMgrClient struct {
@@ -894,6 +1083,15 @@ func (c *weatherMgrClient) Today(ctx context.Context, in *WeatherReq, opts ...gr
 	return out, nil
 }
 
+func (c *weatherMgrClient) WarningList(ctx context.Context, in *WeatherReq, opts ...grpc.CallOption) (*WarningListResp, error) {
+	out := new(WarningListResp)
+	err := c.cc.Invoke(ctx, "/cootek.pgd.weather_mgr.WeatherMgr/WarningList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WeatherMgrServer is the server API for WeatherMgr service.
 type WeatherMgrServer interface {
 	// 24小时 天气情况
@@ -902,6 +1100,8 @@ type WeatherMgrServer interface {
 	Daily(context.Context, *WeatherReq) (*DailyResp, error)
 	// 当天生活指数情况
 	Today(context.Context, *WeatherReq) (*TodayResp, error)
+	// 预警列表
+	WarningList(context.Context, *WeatherReq) (*WarningListResp, error)
 }
 
 // UnimplementedWeatherMgrServer can be embedded to have forward compatible implementations.
@@ -916,6 +1116,9 @@ func (*UnimplementedWeatherMgrServer) Daily(context.Context, *WeatherReq) (*Dail
 }
 func (*UnimplementedWeatherMgrServer) Today(context.Context, *WeatherReq) (*TodayResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Today not implemented")
+}
+func (*UnimplementedWeatherMgrServer) WarningList(context.Context, *WeatherReq) (*WarningListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WarningList not implemented")
 }
 
 func RegisterWeatherMgrServer(s *grpc.Server, srv WeatherMgrServer) {
@@ -976,6 +1179,24 @@ func _WeatherMgr_Today_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WeatherMgr_WarningList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WeatherReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WeatherMgrServer).WarningList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cootek.pgd.weather_mgr.WeatherMgr/WarningList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WeatherMgrServer).WarningList(ctx, req.(*WeatherReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _WeatherMgr_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "cootek.pgd.weather_mgr.WeatherMgr",
 	HandlerType: (*WeatherMgrServer)(nil),
@@ -991,6 +1212,10 @@ var _WeatherMgr_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Today",
 			Handler:    _WeatherMgr_Today_Handler,
+		},
+		{
+			MethodName: "WarningList",
+			Handler:    _WeatherMgr_WarningList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

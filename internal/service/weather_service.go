@@ -170,31 +170,7 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 					data.Humidity = humidity + "%"
 				}
 			}
-			// 穿衣：如无缓存，显示“舒适”
-			// 感冒：如无缓存，显示“较易发”
-			// 紫外线：如无缓存，显示“中等”
-			// 运动：如无缓存，显示“较不宜”
-			// 钓鱼：如无缓存，显示“一般”
-			// 晾晒：如无缓存，显示“一般”
-			if data.LifeSuggestion.Dressing == "" {
-				data.LifeSuggestion.Dressing = "舒适"
-			}
 
-			if data.LifeSuggestion.Fishing == "" {
-				data.LifeSuggestion.Fishing = "一般"
-			}
-			if data.LifeSuggestion.Flu == "" {
-				data.LifeSuggestion.Flu = "较易发"
-			}
-			if data.LifeSuggestion.Sport == "" {
-				data.LifeSuggestion.Sport = "较不宜"
-			}
-			if data.LifeSuggestion.Uv == "" {
-				data.LifeSuggestion.Uv = "中等"
-			}
-			if data.LifeSuggestion.Airing == "" {
-				data.LifeSuggestion.Airing = "一般"
-			}
 			data.RainDesc = rainDesc
 			return data, nil
 		}
@@ -221,35 +197,27 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 			resp.Realtime.Humidity = humidity + "%"
 		}
 	}
-
-	// 穿衣：如无缓存，显示“舒适”
-	// 感冒：如无缓存，显示“较易发”
-	// 紫外线：如无缓存，显示“中等”
-	// 运动：如无缓存，显示“较不宜”
-	// 钓鱼：如无缓存，显示“一般”
-	// 晾晒：如无缓存，显示“一般”
-	if resp.Realtime.LifeSuggestion.Dressing == "" {
-		resp.Realtime.LifeSuggestion.Dressing = "舒适"
-	}
-
-	if resp.Realtime.LifeSuggestion.Fishing == "" {
-		resp.Realtime.LifeSuggestion.Fishing = "一般"
-	}
-	if resp.Realtime.LifeSuggestion.Flu == "" {
-		resp.Realtime.LifeSuggestion.Flu = "较易发"
-	}
-	if resp.Realtime.LifeSuggestion.Sport == "" {
-		resp.Realtime.LifeSuggestion.Sport = "较不宜"
-	}
-	if resp.Realtime.LifeSuggestion.Uv == "" {
-		resp.Realtime.LifeSuggestion.Uv = "中等"
-	}
-	if resp.Realtime.LifeSuggestion.Airing == "" {
-		resp.Realtime.LifeSuggestion.Airing = "一般"
-	}
-
 	return resp.Realtime, nil
 
+}
+func (w *WeatherService) WarningList(ctx context.Context, params *weather_mgr.WeatherReq) (data *weather_mgr.WarningListResp, err error) {
+	params.WeatherType = "warning"
+	data = new(weather_mgr.WarningListResp)
+	res, err := model.WeatherModel.GetWarningList(fmt.Sprintf("%s", params.CityCode))
+
+	if err == nil {
+		err1 := json.Unmarshal([]byte(res), &data.List)
+		if err1 == nil {
+			if len(data.List) > 0 {
+				return data, nil
+			}
+		}
+	}
+	resp, err := model.HefengModel.GetFormatData(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.WarningList, nil
 }
 
 func sendWeatherChan(params *weather_mgr.WeatherReq) {

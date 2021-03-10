@@ -508,9 +508,10 @@ type (
 	}
 
 	ParamWeatherInfoResp struct {
-		Hourly   []*weather_mgr.HourlyStyle `json:"hourly"`   // 小时数据
-		Daily    []*weather_mgr.DailyStyle  `json:"daily"`    // 日数据
-		Realtime *weather_mgr.TodayResp     `json:"realtime"` // 当前信息
+		Hourly      []*weather_mgr.HourlyStyle   `json:"hourly"`       // 小时数据
+		Daily       []*weather_mgr.DailyStyle    `json:"daily"`        // 日数据
+		Realtime    *weather_mgr.TodayResp       `json:"realtime"`     // 当前信息
+		WarningList *weather_mgr.WarningListResp `json:"warning_list"` // 当前信息
 	}
 
 	DailyStyle struct {

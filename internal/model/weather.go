@@ -336,6 +336,18 @@ func (M *weatherModel) GetWeatherRealTimeData(cityCode string) (res string, err 
 	return
 }
 
+// 当前预警信息数据
+func (M *weatherModel) SetWarningList(cityCode, data string) {
+	k := key.RedisWarningList(cityCode)
+	redisClient.Set(k, data, time.Hour)
+}
+
+func (M *weatherModel) GetWarningList(cityCode string) (res string, err error) {
+	k := key.RedisWarningList(cityCode)
+	res, err = redisClient.Get(k).Result()
+	return
+}
+
 func (M *weatherModel) SetLastDay(cityCode, data string) {
 	k := key.RedisKvWeatherLastDay(cityCode)
 	redisClient.Set(k, data, time.Hour*24)
