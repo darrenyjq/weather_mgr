@@ -87,31 +87,31 @@ func GetWarningTypeName(typeName string) string {
 	case "暴雪":
 		return "blizzard "
 	case "寒潮":
-		return "cold_wave"
+		return "blizzard"
 	case "大风":
-		return "strong_wind"
+		return "typhoon"
 	case "沙尘暴":
 		return "sandstorm"
 	case "高温":
-		return "high_temperature"
+		return "drought"
 	case "干旱":
 		return "drought"
 	case "雷电":
 		return "thunder_lightning"
 	case "冰雹":
-		return "hail"
+		return "blizzard"
 	case "霜冻":
-		return "frost"
+		return "blizzard"
 	case "大雾":
 		return "fog"
 	case "霾":
-		return "haze"
+		return "fog"
 	case "道路结冰":
-		return "icy_roads"
+		return "roads"
 	case "寒冷":
-		return "cold"
+		return "blizzard"
 	case "灰霾":
-		return "grey_haze"
+		return "fog"
 	case "雷雨大风":
 		return "the_thunderstorm_winds"
 	case "森林火险":
@@ -123,55 +123,55 @@ func GetWarningTypeName(typeName string) string {
 	case "干热风":
 		return "hot_wind"
 	case "低温":
-		return "snow_ice"
+		return "cooling"
 	case "冰冻":
-		return "frozen_at_low_temperature"
+		return "blizzard"
 	case "空气重污染":
-		return "heavy_air_pollution"
+		return "fog"
 	case "海上大雾":
 		return "sea_fog"
 	case "雷暴大风":
 		return "thunderstorm_winds"
 	case "持续低温":
-		return "continuous_low_temperature"
+		return "cooling"
 	case "浓浮尘":
-		return "thick_dust"
+		return "fog"
 	case "龙卷风":
 		return "tornado"
 	case "低温冻害":
-		return "low_temperature_cold_injury"
+		return "cooling"
 	case "海上大风":
 		return "sea_wind"
 	case "低温雨雪冰冻":
-		return "snow_frozen_at_low_temperature"
+		return "blizzard"
 	case "强对流":
 		return "strong_convection"
 	case "臭氧":
 		return "ozone"
 	case "大雪":
-		return "heavy_snow"
+		return "blizzard"
 	case "强降雨":
-		return "heavy_rain_strong_cooling"
+		return "rainstorm"
 	case "强降温":
-		return "snow"
+		return "cooling"
 	case "雪灾":
-		return "forest_fire "
+		return "roads "
 	case "草原火险":
-		return "thunderstorms"
+		return "forest_fire"
 	case "雷暴":
-		return "strong_wind"
+		return "thunder_lightning"
 	case "严寒":
-		return "cold"
+		return "cooling"
 	case "沙尘":
-		return "dust"
+		return "fog"
 	case "海上雷雨大风":
 		return "sea"
 	case "海上雷电":
 		return "sea_thunder_lightning"
 	case "海上台风":
-		return "typhoon_at_sea"
+		return "sea_wind"
 	default:
-		return "grey_haze"
+		return "fog"
 	}
 }
 func GetWarmRemindNotice(t int64, level string) (str string) {
