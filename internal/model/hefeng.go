@@ -168,8 +168,6 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 
 	case "today":
 		normalData, err := M.GetApiData(params, "/v7/indices/1d?type=1,3,4,5,6,8,9,14,16&")
-		// warningData, err := M.GetApiData(params, "/v7/warning/now?")
-
 		if err != nil {
 			xzap.Error("和风 API 系统维护：" + err.Error())
 			return nil, err
@@ -221,6 +219,8 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			Date:             currentTime.Unix(),
 			LifeSuggestion:   lifeSuggestion,
 		}
+		xzap.Info("ccccccc", zap.Any("a", val.Realtime))
+
 		str, err := json.Marshal(val.Realtime)
 		if err == nil {
 			WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))

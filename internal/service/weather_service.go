@@ -63,7 +63,6 @@ func (w *WeatherService) Hourly(ctx context.Context, params *weather_mgr.Weather
 	}
 	if len(resp.List) < 15 {
 		res, err := model.HefengModel.GetFormatData(params)
-		resp := new(weather_mgr.HourlyResp)
 		if err == nil && len(res.Hourly) > 0 {
 			sign++
 			resp.List = res.Hourly
@@ -78,7 +77,6 @@ func (w *WeatherService) Hourly(ctx context.Context, params *weather_mgr.Weather
 	// if err1 == nil {
 	// 	go model.WeatherModel.SetNowTemp(params.Uid, temp, currentTime)
 	// }
-
 	return resp, nil
 }
 
