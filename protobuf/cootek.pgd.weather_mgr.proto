@@ -54,6 +54,7 @@ message WarningListResp {
 }
 
 message Warning {
+    string warning_id = 1; // 预警id
     string warning_title = 2; // 预警抬头
     string warning_level = 3; // 预警级别
     string warning_type = 4; // 预警类型

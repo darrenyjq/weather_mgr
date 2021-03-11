@@ -97,7 +97,7 @@ type HefengData struct {
 		// Dew       string `json:"dew"`
 	} `json:"hourly"`
 	Warning []struct {
-		// ID        string `json:"id"`
+		ID      string `json:"id"`
 		Sender  string `json:"sender"`
 		PubTime string `json:"pubTime"`
 		Title   string `json:"title"`
@@ -132,7 +132,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			xzap.Error("和风 API 系统维护：" + err.Error())
 			return nil, err
 		}
-		var alertDesc, level, title, typeName, sender, typeNameEg string
+		var id, alertDesc, level, title, typeName, sender, typeNameEg string
 		val.WarningList = new(weather_mgr.WarningListResp)
 		val.WarningList.List = make([]*weather_mgr.Warning, 0)
 		// 存在预警拉文案
@@ -140,6 +140,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			alertDesc = v.Text
 			level = helper.GetWarningLevel(v.Level)
 			title = v.Title
+			id = v.ID
 			typeName = v.TypeName
 			typeNameEg = helper.GetWarningTypeName(v.TypeName)
 			t, err1 := time.ParseInLocation("2006-01-02T15:04", strings.Split(v.PubTime, "+")[0], time.Local)
@@ -150,6 +151,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			// 拼成发布者发布时间文案
 			sender = v.Sender + t.Format("2006年01月02日15点") + "发布"
 			val.WarningList.List = append(val.WarningList.List, &weather_mgr.Warning{
+				WarningId:     id,
 				WarningLevel:  level,
 				WarningTitle:  title,
 				WarningType:   typeName,
