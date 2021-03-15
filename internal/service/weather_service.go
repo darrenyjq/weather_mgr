@@ -138,7 +138,7 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 	data = new(weather_mgr.TodayResp)
 	res, err := model.WeatherModel.GetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode))
 	currentTime, _ := model.MsIntToTime(params.SessionBase.SendTsMillisec)
-	var rainDesc string
+	rainDesc := model.WeatherModel.GetCurRain(params.CityCode)
 
 	if err == nil {
 		err1 := json.Unmarshal([]byte(res), &data)
@@ -178,11 +178,8 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 		return nil, err
 
 	}
-	if params.TestGroup == "1" {
-		// 分钟级降水文案
-		resp.Realtime.RainDesc = rainDesc
-	}
 
+	resp.Realtime.RainDesc = rainDesc
 	if resp.Realtime.WarmRemind != "" {
 		warmRemind := helper.GetWarmRemindNotice(999, resp.Realtime.WarmRemind)
 		resp.Realtime.WarmRemind = warmRemind

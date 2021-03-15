@@ -264,6 +264,11 @@ func RedisKvWeatherLastHour(cityCode string) string {
 	return fmt.Sprintf("weather:last:hour:%s", cityCode)
 }
 
+// 保存该地区降雨情况
+func RedisCurRain(cityCode string) string {
+	return fmt.Sprintf("weather:cur:rain:%s", cityCode)
+}
+
 // 倒计时下一次领取金币时间
 func RKWeatherCountdownDate(uid uint64) string {
 	return fmt.Sprintf("weather:countdown:date:uid:%d", uid)

@@ -371,3 +371,15 @@ func (M *weatherModel) GetLastHour(cityCode string) (res string, err error) {
 	res, err = redisClient.Get(k).Result()
 	return
 }
+
+// 保存该地区降雨情况
+func (M *weatherModel) SetCurRain(cityCode, data string) {
+	k := key.RedisCurRain(cityCode)
+	redisClient.Set(k, data, time.Minute*60)
+}
+
+func (M *weatherModel) GetCurRain(cityCode string) (res string) {
+	k := key.RedisCurRain(cityCode)
+	res, _ = redisClient.Get(k).Result()
+	return
+}

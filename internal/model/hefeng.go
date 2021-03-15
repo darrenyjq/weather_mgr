@@ -221,7 +221,6 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			Date:             currentTime.Unix(),
 			LifeSuggestion:   lifeSuggestion,
 		}
-		xzap.Info("ccccccc", zap.Any("a", val.Realtime))
 
 		str, err := json.Marshal(val.Realtime)
 		if err == nil {
@@ -278,6 +277,11 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			// 24 个截止
 			if k == 24 {
 				break
+			}
+
+			// 判断第二个元素 是否含有下雨情况，下雨则缓存下雨标识
+			if k == 1 && helper.IsRainIcon(v.Icon) {
+				WeatherModel.SetCurRain(params.CityCode, "小雨，60分钟后雨停")
 			}
 
 			path := strings.Split(v.FxTime, "+")[0]

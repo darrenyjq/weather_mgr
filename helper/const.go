@@ -81,95 +81,95 @@ func GetWarningLevel(level string) string {
 func GetWarningTypeName(typeName string) string {
 	switch typeName {
 	case "台风":
-		return "typhoon "
-	case "暴雨":
-		return "rainstorm "
-	case "暴雪":
-		return "blizzard "
-	case "寒潮":
-		return "blizzard"
-	case "大风":
 		return "typhoon"
+	case "暴雨":
+		return "heavy_rain"
+	case "暴雪":
+		return "blizzard"
+	case "寒潮":
+		return "cold_wave"
+	case "大风":
+		return "gale"
 	case "沙尘暴":
 		return "sandstorm"
 	case "高温":
-		return "drought"
+		return "high_temperature"
 	case "干旱":
 		return "drought"
 	case "雷电":
-		return "thunder_lightning"
+		return "thunder_and_lightning"
 	case "冰雹":
-		return "blizzard"
+		return "hail"
 	case "霜冻":
-		return "blizzard"
+		return "frost"
 	case "大雾":
-		return "fog"
+		return "heavy_fog"
 	case "霾":
-		return "fog"
+		return "hazehaze"
 	case "道路结冰":
-		return "roads"
+		return "road_icing"
 	case "寒冷":
-		return "blizzard"
+		return "cold"
 	case "灰霾":
-		return "fog"
+		return "haze"
 	case "雷雨大风":
-		return "the_thunderstorm_winds"
+		return "thunderstorm_and_gale"
 	case "森林火险":
-		return "forest_fire"
+		return "forest_fire_insurance"
 	case "降温":
-		return "cooling"
+		return "cool_down"
 	case "道路冰雪":
-		return "roads"
+		return "road_ice_and_snow"
 	case "干热风":
-		return "hot_wind"
+		return "dry_hot_air"
 	case "低温":
-		return "cooling"
+		return "low_temperature"
 	case "冰冻":
-		return "blizzard"
+		return "frozen"
 	case "空气重污染":
-		return "fog"
+		return "heavy_air_pollution"
 	case "海上大雾":
-		return "sea_fog"
+		return "heavy_fog_on_the_sea"
 	case "雷暴大风":
-		return "thunderstorm_winds"
+		return "thunderstorm_and_gale"
 	case "持续低温":
-		return "cooling"
+		return "continuous_low_temperature"
 	case "浓浮尘":
-		return "fog"
+		return "thick_floating_dust"
 	case "龙卷风":
 		return "tornado"
 	case "低温冻害":
-		return "cooling"
+		return "low_temperature_frost_damage"
 	case "海上大风":
-		return "sea_wind"
+		return "gale_at_sea"
 	case "低温雨雪冰冻":
-		return "blizzard"
+		return "low_temperature_snow"
 	case "强对流":
 		return "strong_convection"
 	case "臭氧":
 		return "ozone"
 	case "大雪":
-		return "blizzard"
+		return "heavy_snow"
 	case "强降雨":
-		return "rainstorm"
+		return "heavy_rainfall"
 	case "强降温":
-		return "cooling"
+		return "strong_cooling"
 	case "雪灾":
-		return "roads "
+		return "snow_disaster"
 	case "草原火险":
-		return "forest_fire"
+		return "grassland_fire_insurance"
 	case "雷暴":
-		return "thunder_lightning"
+		return "thunderstorm"
 	case "严寒":
-		return "cooling"
+		return "severe_cold"
 	case "沙尘":
-		return "fog"
+		return "sand_and_dust"
 	case "海上雷雨大风":
-		return "sea"
+		return "thunderstorm_and_gale_at_sea"
 	case "海上雷电":
-		return "sea_thunder_lightning"
+		return "thunder_and_lightning_at_sea"
 	case "海上台风":
-		return "sea_wind"
+		return "typhoon_at_sea"
 	default:
 		return "fog"
 	}
@@ -344,6 +344,49 @@ func GetHuaFengHourlySky(code int) string {
 		return re
 	}
 	return "CLEAR_DAY"
+}
+
+func IsRainIcon(icon string) bool {
+	switch icon {
+	case "305":
+		return true
+	case "306":
+		return true
+	case "307":
+		return true
+	case "310":
+		return true
+	case "300":
+		return true
+	case "301":
+		return true
+	case "350":
+		return true
+	case "351":
+		return true
+	case "308":
+		return true
+	case "309":
+		return true
+	case "313":
+		return true
+	case "314":
+		return true
+	case "315":
+		return true
+	case "316":
+		return true
+	case "399":
+		return true
+	case "405":
+		return true
+	case "10":
+		return true
+	default:
+		return false
+	}
+	return false
+
 }
 
 var Huafeng_SKY = map[string]string{
