@@ -222,6 +222,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			LifeSuggestion:   lifeSuggestion,
 		}
 
+		//
 		str, err := json.Marshal(val.Realtime)
 		if err == nil {
 			WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))
@@ -379,7 +380,7 @@ func (M *hefengModel) AsyncWeatherData() {
 					continue
 				}
 				switch params.WeatherType {
-				// case "today":
+				case "today":
 				// 	str, err := json.Marshal(res.Realtime)
 				// 	if err == nil {
 				// 		WeatherModel.SetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode), string(str))
