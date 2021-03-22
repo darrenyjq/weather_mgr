@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+import "cootek.pgd.ysession.proto";
+
+package cootek.pgd.weather_mgr;
+option go_package = "weather_mgr/cootek/pgd/weather_mgr";
+
+message WeatherReq {
+    ysession.SessionParam sessionBase = 8;
+    double lng = 1;
+    double lat = 2;
+    string city_code = 3;
+    string test_group = 4; // 实验组
+    string weather_type = 5; // 查看天气的类型
+    uint64 uid = 6; // ass
+    string api_type = 7; // api类型
+}
+
+message HourlyResp {
+    repeated HourlyStyle list = 1;
+}
+message DailyResp {
+    repeated DailyStyle list = 1;
+}
+
+message HourlyStyle {
+    int64 date = 1;
+    string temperature = 2;
+    string skycon = 3;
+}
+message DailyStyle {
+    int64 date = 1;
+    string temperature_max = 2;
+    string temperature_min = 3;
+    string skycon = 4;
+    string sunset = 5;
+    string sunrise = 6;
+    double aqi = 7;
+}
+
+message TodayResp {
+    string forecast_keypoint = 1; // 生活指数预报的详细描述，可能为空
+    string rain_desc = 2; // 降水描述，可能为空
+    string alert_desc = 3; // 预警详细文字描述
+    string warm_remind = 4; // 提示
+    string humidity = 5; // 湿度
+    string comfort = 6; // 舒适指数
+    LifeSuggestion life_suggestion = 7;
+    int64 date = 8;
+}
+
+message WarningListResp {
+    repeated Warning list = 1; // 预警列表
+}
+
+message Warning {
+    string warning_id = 1; // 预警id
+    string warning_title = 2; // 预警抬头
+    string warning_level = 3; // 预警级别
+    string warning_type = 4; // 预警类型
+    string warning_type_en = 5; // 预警类型英文
+    string sender = 6; // 发布者
+    string alert_desc = 7; // 预警详细文字描述
+}
+
+message LifeSuggestion {
+    string dressing = 1; // 穿衣指数
+    string fishing = 2; // 钓鱼指数
+    string flu = 3; // 感冒指数
+    string sport = 4; // 运动指数
+    string uv = 5; // 紫外线指数
+    string travel = 6; // 旅游指数
+    string airing = 7; // 晾晒
+}
+
+
+service WeatherMgr {
+    // 24小时 天气情况
+    rpc Hourly (WeatherReq) returns (HourlyResp) {
+    }
+    // 近一周天气情况
+    rpc Daily (WeatherReq) returns (DailyResp) {
+    }
+    // 当天生活指数情况
+    rpc Today (WeatherReq) returns (TodayResp) {
+    }
+
+    // 预警列表
+    rpc WarningList (WeatherReq) returns (WarningListResp) {
+    }
+
+}

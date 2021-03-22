@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "account.proto";
+package cootek.pgd.ysession;
+option go_package = "weather_mgr/cootek/pgd/ysession";
+
+message SessionParam{
+    account.Account account =   1;
+    string requestId = 2;
+    string preSpanId = 3;
+    int64 curSpanId = 4;
+    int64 sendTsMillisec = 5;
+}

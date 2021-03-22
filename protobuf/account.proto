@@ -1,0 +1,105 @@
+syntax = "proto2";
+
+package cootek.pgd.account;
+option go_package = "weather_mgr/cootek/pgd/account";
+
+enum AccountType {
+    TEMP = 0;
+    PHONE = 1;
+    OAUTH2_GOOGLE = 2;
+    OAUTH_TWITTER = 3;
+    OAUTH2_FACEBOOK = 4;
+    OAUTH2_SINAWEIBO = 5;
+    OAUTH2_QQ = 6;
+    VOIP_TEMP = 7;
+    MAIL = 8;
+    OAUTH2_XIAOMI = 9;
+    ANDES = 10;
+    OEM_AUTH = 11;
+    MARKET = 12;
+    ALERT = 13;
+    PHONE_OEM_OPEN = 14;
+    PHONE_GOOGLE = 15;
+    PHONE_FACEBOOK = 16;
+    PHONE_TWITTER = 17;
+    PALLAS = 18;
+    PHONE_WEIXIN = 19;
+}
+
+
+message ActivationInfo {
+    enum ActivateType {
+        NEW = 0;
+        RENEW = 1;
+        UPGRADE = 2;
+        RECOMMEND = 3;
+        EFFECTIVE = 4;
+    }
+
+    required ActivateType activate_type = 1;
+    required uint64 user_id = 2; //set to -1 when sent to ACCOUNT, just for compatible
+    required string app_name = 3;
+    required string app_version = 4;
+    optional string os_name = 5;
+    optional string os_version = 6;
+    optional string device_info = 7;
+    optional string channel_code = 8;
+    optional string imei = 9;
+    optional string uuid = 10;
+    optional string simid = 11;
+    optional string locale = 12;
+    optional string mnc = 13;
+    optional string manufacturer = 14;
+    optional string api_level = 15;
+    optional string host_app_name = 16;
+    optional string host_app_version = 17;
+    optional string resolution = 18;
+    optional string dpi = 19;
+    optional string pysical_size = 20;
+    optional string recommend_channel = 21;
+    optional string last_activation_code = 23;
+    optional string identifier = 24;
+    optional bool sys_app = 25;
+    optional uint64 timestamp = 26;//in second
+    optional string idfa = 27; // for iOS
+    optional string idfv = 28; // for iOS
+    optional string apple_token = 29; //store ios_token
+    optional string release = 30;
+    optional string android_id = 31;
+    optional string mac_address = 32;
+    optional string device_verified = 33;
+    optional string package_name = 34;
+    optional string meta_data = 35;
+    optional uint64 upgrade_timestamp = 36;//in second
+    optional uint64 activate_timestamp = 37;//in second
+    optional string gaid = 38;
+}
+
+
+enum MediaSource{
+    MEDIA_SOURCE_DEFAULT = 0;
+    MEDIA_SOURCE_FACEBOOK = 1;
+    MEDIA_SOURCE_ADWORDS = 2;
+    MEDIA_SOURCE_WANGMENG = 3;
+    MEDIA_SOURCE_GOOGLE_PLAY = 4;
+    MEDIA_SOURCE_DAILIANG = 5;
+    MEDIA_SOURCE_OTHERS = 6;
+    MEDIA_SOURCE_OEM = 7;
+    MEDIA_SOURCE_POSSIBLE_GOOGLE_PLAY = 8;
+    MEDIA_SOURCE_NOAH_PUSH = 9;
+}
+
+message Account {
+    required uint64 user_id = 1;
+    required AccountType account_type = 2;
+    required string token = 3;
+    required uint64 exp_date = 4;
+    optional string activation_code = 5;
+    optional ActivationInfo activation_info = 6;
+    optional string account_name = 7;
+    optional string auth_info_3p = 8;
+    optional string auth_3p_name = 9;
+    optional bool forbidden = 10;
+    optional string account_region = 11;
+    optional MediaSource media_source = 12;
+}

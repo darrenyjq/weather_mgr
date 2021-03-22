@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "account.proto";
+
+package cootek.pgd.config_service;
+option go_package = "weather_mgr/cootek/pgd/config_service";
+
+message Abtest {
+    string  name    =   1;
+    int64   val     =   2;
+}
+
+message GetConfigParam  {
+    string  key         =   1;
+    int64   group       =   2;
+    string  app_name    =   3;
+    repeated Abtest abtests   =   4;
+    account.Account account =   5;
+    bool    cache   =   6;
+}
+
+message ConfigResultExtraInfo {
+    string  key =   1;
+    int64   group   =   2;
+    repeated string steps = 3;
+}
+
+message GetConfigResult {
+    string  config      =   1;
+    ConfigResultExtraInfo  extra_info = 2;
+}
+
+service ConfigService {
+    rpc Get(GetConfigParam) returns (GetConfigResult) {}
+}
+
