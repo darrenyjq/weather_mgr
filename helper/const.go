@@ -197,6 +197,45 @@ func GetWarmRemindNotice(t int64, level string) (str string) {
 	return
 }
 
+// str1 穿衣提示, str2 出行文案, str3 出行tips
+func GetWeatherNotices(t int64, level string) (warmRemind, walkRemind, comfort string) {
+	switch {
+	case level == "1" || t < 6:
+		warmRemind = "天气寒冷，宜穿羽绒服，佩戴帽子和手套。"
+		comfort = "天气寒冷"
+		walkRemind = "天气寒冷，适宜穿棉衣、羽绒服、冬大衣、皮夹克加羊毛衫、厚外套等冬季服装，佩戴帽子和手套。年老体弱者建议尽量减少外出。"
+	case level == "2" || t >= 6 && t < 11:
+		warmRemind = "天气冷，宜穿棉衣、羽绒服、毛衣加大衣。"
+		comfort = "天气冷"
+		walkRemind = "天气冷，适宜穿棉衣、羽绒服、冬大衣、皮夹克、毛衣加大衣等冬季服装。年老体弱者注意防冻保暖。"
+	case level == "3" || t >= 11 && t < 15:
+		warmRemind = "天气较冷，宜穿薄棉衣、羊毛衫加皮夹克。"
+		comfort = "天气较冷"
+		walkRemind = "天气较冷，适宜穿薄棉衣、薄羽绒服、羊毛衫加皮夹克等秋冬过渡装。年老体弱者宜穿厚棉衣或冬大衣。"
+	case level == "4" || t >= 15 && t < 21:
+		warmRemind = "天气微凉，宜穿夹克衫、羊毛衫加西服套装。"
+		comfort = "天气微凉，较舒适"
+		walkRemind = "天气温凉，适宜穿马甲衬衫、长裤、夹克衫、薄羊毛衫加西服套装等春秋服装。年老体弱者宜穿羊毛衫加风衣。"
+	case level == "5" || t >= 21 && t < 24:
+		warmRemind = "天气温暖，宜穿长袖衬衫、薄套装。"
+		comfort = "天气温和，舒适"
+		walkRemind = "天气温和，适宜穿长袖衬衫和单裤、单层薄衫裤、薄棉衫等春秋过渡装；年老体弱者宜穿针织长袖衬衫加背心、长裤、薄套装。"
+	case level == "6" || t >= 24 && t < 28:
+		warmRemind = "天气较热，宜穿棉麻衬衫、单裤。"
+		comfort = "天气较热"
+		walkRemind = "天气较热，适宜穿棉麻面料的衬衫、薄长裙、薄T恤衫等夏季服装。年老体弱者宜穿长袖衬衫和单裤。"
+	case level == "7" || 999 > t && t >= 28:
+		warmRemind = "天气炎热，宜穿薄T恤衫、敞领短袖棉衫。"
+		comfort = "天气炎热"
+		walkRemind = "天气炎热，适宜穿短衫、短裙、短裤、薄T恤衫、敞领短袖棉衫等夏季服装。"
+	default:
+		warmRemind = "天气温暖，宜穿长袖衬衫、薄套装。"
+		comfort = "天气温和，舒适"
+		walkRemind = "刷新温度有贴心穿衣提醒，不再穿错衣服"
+	}
+	return
+}
+
 const (
 	// 签到状态
 	// 待签到

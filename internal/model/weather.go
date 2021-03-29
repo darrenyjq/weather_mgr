@@ -383,3 +383,15 @@ func (M *weatherModel) GetCurRain(cityCode string) (res string) {
 	res, _ = redisClient.Get(k).Result()
 	return
 }
+
+// 保存当天出行信息
+func (M *weatherModel) SetWalkOut(cityCode, data string) {
+	k := key.RedisWalkOut(cityCode)
+	redisClient.Set(k, data, 0)
+}
+
+func (M *weatherModel) GetWalkOut(cityCode string) (res string) {
+	k := key.RedisWalkOut(cityCode)
+	res, _ = redisClient.Get(k).Result()
+	return
+}

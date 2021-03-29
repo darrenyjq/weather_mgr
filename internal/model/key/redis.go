@@ -269,6 +269,11 @@ func RedisCurRain(cityCode string) string {
 	return fmt.Sprintf("weather:cur:rain:%s", cityCode)
 }
 
+// 保存当天出行信息
+func RedisWalkOut(cityCode string) string {
+	return fmt.Sprintf("weather:walk:out:%s", cityCode)
+}
+
 // 倒计时下一次领取金币时间
 func RKWeatherCountdownDate(uid uint64) string {
 	return fmt.Sprintf("weather:countdown:date:uid:%d", uid)
