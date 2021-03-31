@@ -199,6 +199,7 @@ func GetWarmRemindNotice(t int64, level string) (str string) {
 
 // str1 穿衣提示, str2 出行文案, str3 出行tips
 func GetWeatherNotices(t int64, level string) (warmRemind, walkRemind, comfort string) {
+
 	switch {
 	case level == "1" || t < 6:
 		warmRemind = "天气寒冷，宜穿羽绒服，佩戴帽子和手套。"
