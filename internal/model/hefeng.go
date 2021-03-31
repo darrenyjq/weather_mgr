@@ -187,7 +187,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 
 			case v.Type == "3":
 				// 穿衣指数
-				warmRemind = v.Level
+				warmRemind = v.Text
 				lifeSuggestion.Dressing = v.Category
 
 			case v.Type == "4":

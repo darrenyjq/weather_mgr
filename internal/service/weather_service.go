@@ -172,18 +172,19 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 		data.Humidity = humidity + "%"
 	}
 
-	level, _ := strconv.ParseInt(data.WarmRemind, 10, 64)
 	// 当存在穿衣指数级别情况，以此为参数获取对应文案
-	if level > 0 {
+	level, _ := strconv.ParseInt(data.WarmRemind, 10, 64)
+	switch {
+	case len([]byte(data.WarmRemind)) > 1:
+		break
+	case level > 0:
 		data.WarmRemind, data.WalkRemind, data.Comfort = helper.GetWeatherNotices(999, data.WarmRemind)
-	} else {
+	default:
 		// 当缓存数据不存在 取温度作为穿衣提醒文案
 		temp := model.WeatherModel.GetLowDayTemp(params.CityCode, currentTime)
 		data.WarmRemind, data.WalkRemind, data.Comfort = helper.GetWeatherNotices(temp, "")
 	}
-
 	data.RainDesc = rainDesc
-
 	var v *model.Daily
 	// 获取出行数据
 	walkOut := model.WeatherModel.GetWalkOut(params.CityCode)
