@@ -44,9 +44,12 @@ message TodayResp {
     string alert_desc = 3; // 预警详细文字描述
     string warm_remind = 4; // 提示
     string humidity = 5; // 湿度
-    string comfort = 6; // 舒适指数
+    string comfort = 6; // 出行 tips
     LifeSuggestion life_suggestion = 7;
     int64 date = 8;
+    string wind_scale_day = 11; //风级别
+    string wind_dir_day = 12; //风文案
+    string walk_remind = 13; // 出行建议
 }
 
 message WarningListResp {

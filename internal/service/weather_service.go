@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"go.uber.org/zap"
-	"strconv"
 	"time"
 	"weather_mgr/cootek/pgd/weather_mgr"
 	"weather_mgr/helper"
@@ -142,57 +141,53 @@ func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherR
 
 	if err == nil {
 		err1 := json.Unmarshal([]byte(res), &data)
-
 		if err1 == nil {
 			day := currentTime.Day()
 			reDay := time.Unix(data.Date, 0).Day()
 			// 最近时间和当前时间不符时通知更新缓存
 			if reDay != day {
 				go sendWeatherChan(params)
+				// 清空数据，重新同步读取
+				data = new(weather_mgr.TodayResp)
 			}
-			if data.WarmRemind != "" {
-				level, _ := strconv.ParseInt(data.WarmRemind, 10, 64)
-				if level > 0 {
-					data.WarmRemind = helper.GetWarmRemindNotice(999, data.WarmRemind)
-				} else {
-					// 当缓存数据不存在 取温度作为穿衣提醒标识
-					temp := model.WeatherModel.GetLowDayTemp(params.CityCode, currentTime)
-					data.WarmRemind = helper.GetWarmRemindNotice(temp, "")
-				}
-			}
-			if data.Humidity == "" {
-				humidity := model.WeatherModel.GetHumidityDay(params.CityCode, currentTime)
-				if humidity == "" {
-					data.Humidity = "20%"
-				} else {
-					data.Humidity = humidity + "%"
-				}
-			}
-
-			data.RainDesc = rainDesc
-			return data, nil
 		}
 	}
-	resp, err := model.HefengModel.GetFormatData(params)
-	if err != nil {
-		return nil, err
 
-	}
+	// 真实同步读取
+	if data.Date == 0 {
+		resp, err := model.HefengModel.GetFormatData(params)
+		if err != nil {
+			return nil, err
 
-	resp.Realtime.RainDesc = rainDesc
-	if resp.Realtime.WarmRemind != "" {
-		warmRemind := helper.GetWarmRemindNotice(999, resp.Realtime.WarmRemind)
-		resp.Realtime.WarmRemind = warmRemind
-	}
-	if resp.Realtime.Humidity == "" {
-		humidity := model.WeatherModel.GetHumidityDay(params.CityCode, currentTime)
-		if humidity == "" {
-			resp.Realtime.Humidity = "20%"
-		} else {
-			resp.Realtime.Humidity = humidity + "%"
 		}
+		data = resp.Realtime
+
 	}
-	return resp.Realtime, nil
+	// 获取湿度
+	humidity := model.WeatherModel.GetHumidityDay(params.CityCode, currentTime)
+	if humidity == "" {
+		data.Humidity = "20%"
+	} else {
+		data.Humidity = humidity + "%"
+	}
+
+	// 当缓存数据不存在 取温度作为穿衣提醒文案
+	temp := model.WeatherModel.GetLowDayTemp(params.CityCode, currentTime)
+	var walkRemind string
+	data.WarmRemind, walkRemind, data.Comfort = helper.GetWeatherNotices(temp, data.WarmRemind)
+
+	if data.WalkRemind == "" {
+		data.WalkRemind = walkRemind
+	}
+	data.RainDesc = rainDesc
+	var v *model.Daily
+	// 获取出行数据
+	walkOut := model.WeatherModel.GetWalkOut(params.CityCode)
+	err = json.Unmarshal([]byte(walkOut), &v)
+	if v != nil && err == nil {
+		data.WindDirDay = v.WindDirDay + v.WindScaleDay + "级"
+	}
+	return data, nil
 
 }
 func (w *WeatherService) WarningList(ctx context.Context, params *weather_mgr.WeatherReq) (data *weather_mgr.WarningListResp, err error) {

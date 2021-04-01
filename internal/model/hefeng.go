@@ -47,39 +47,7 @@ type HefengData struct {
 		Cloud     string `json:"cloud"`
 		Dew       string `json:"dew"`
 	} `json:"now"`
-	Daily []struct {
-		FxDate         string `json:"fxDate"`
-		Sunrise        string `json:"sunrise"`
-		Sunset         string `json:"sunset"`
-		Moonrise       string `json:"moonrise"`
-		Moonset        string `json:"moonset"`
-		MoonPhase      string `json:"moonPhase"`
-		TempMax        string `json:"tempMax"`
-		TempMin        string `json:"tempMin"`
-		IconDay        string `json:"iconDay"`
-		TextDay        string `json:"textDay"`
-		IconNight      string `json:"iconNight"`
-		TextNight      string `json:"textNight"`
-		Wind360Day     string `json:"wind360Day"`
-		WindDirDay     string `json:"windDirDay"`
-		WindScaleDay   string `json:"windScaleDay"`
-		WindSpeedDay   string `json:"windSpeedDay"`
-		Wind360Night   string `json:"wind360Night"`
-		WindDirNight   string `json:"windDirNight"`
-		WindScaleNight string `json:"windScaleNight"`
-		WindSpeedNight string `json:"windSpeedNight"`
-		Humidity       string `json:"humidity"`
-		Precip         string `json:"precip"`
-		Pressure       string `json:"pressure"`
-		Vis            string `json:"vis"`
-		Cloud          string `json:"cloud"`
-		UvIndex        string `json:"uvIndex"`
-		Aqi            string `json:"aqi"`
-		Text           string `json:"text"`     // 生活指数预报的详细描述，可能为空
-		Level          string `json:"level"`    // 指数预报的等级
-		Type           string `json:"type"`     // 指数预报的类型
-		Category       string `json:"category"` // 指数类别
-	} `json:"daily"`
+	Daily  []Daily `json:"daily"`
 	Hourly []struct {
 		FxTime string `json:"fxTime"`
 		Temp   string `json:"temp"`
@@ -110,6 +78,40 @@ type HefengData struct {
 		Text     string `json:"text"` // 预警详细文字描述
 		// Related   string `json:"related"`
 	} `json:"warning"`
+}
+
+type Daily struct {
+	FxDate         string `json:"fxDate"`
+	Sunrise        string `json:"sunrise"`
+	Sunset         string `json:"sunset"`
+	Moonrise       string `json:"moonrise"`
+	Moonset        string `json:"moonset"`
+	MoonPhase      string `json:"moonPhase"`
+	TempMax        string `json:"tempMax"`
+	TempMin        string `json:"tempMin"`
+	IconDay        string `json:"iconDay"`
+	TextDay        string `json:"textDay"`
+	IconNight      string `json:"iconNight"`
+	TextNight      string `json:"textNight"`
+	Wind360Day     string `json:"wind360Day"`
+	WindDirDay     string `json:"windDirDay"`   // 白天风向
+	WindScaleDay   string `json:"windScaleDay"` // 风力等级
+	WindSpeedDay   string `json:"windSpeedDay"`
+	Wind360Night   string `json:"wind360Night"`
+	WindDirNight   string `json:"windDirNight"`
+	WindScaleNight string `json:"windScaleNight"`
+	WindSpeedNight string `json:"windSpeedNight"`
+	Humidity       string `json:"humidity"`
+	Precip         string `json:"precip"`
+	Pressure       string `json:"pressure"`
+	Vis            string `json:"vis"`
+	Cloud          string `json:"cloud"`
+	UvIndex        string `json:"uvIndex"` // 紫外线强度指数
+	Aqi            string `json:"aqi"`
+	Text           string `json:"text"`     // 生活指数预报的详细描述，可能为空
+	Level          string `json:"level"`    // 指数预报的等级
+	Type           string `json:"type"`     // 指数预报的类型
+	Category       string `json:"category"` // 指数类别
 }
 
 // https://api.qweather.com/v7/astronomy/sunmoon  日落日出
@@ -174,7 +176,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			xzap.Error("和风 API 系统维护：" + err.Error())
 			return nil, err
 		}
-		var alertDesc, forecastKeypoint, warmRemind string
+		var alertDesc, forecastKeypoint, warmRemind, walkRemind string
 		lifeSuggestion := &weather_mgr.LifeSuggestion{}
 
 		for _, v := range normalData.Daily {
@@ -187,7 +189,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 				// 穿衣指数
 				warmRemind = v.Level
 				lifeSuggestion.Dressing = v.Category
-
+				walkRemind = v.Text
 			case v.Type == "4":
 				// 	钓鱼指数
 				lifeSuggestion.Fishing = v.Category
@@ -218,6 +220,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			ForecastKeypoint: forecastKeypoint,
 			AlertDesc:        alertDesc,
 			WarmRemind:       warmRemind,
+			WalkRemind:       walkRemind,
 			Date:             currentTime.Unix(),
 			LifeSuggestion:   lifeSuggestion,
 		}
@@ -243,17 +246,22 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 				go WeatherModel.SetLowDayTemp(params.CityCode, v.TempMin, currentTime)
 				// 保存当天湿度
 				go WeatherModel.SetHumidityDay(params.CityCode, v.Humidity, currentTime)
+
+				// 保存当天出行信息
+				bs, _ := json.Marshal(v)
+				go WeatherModel.SetWalkOut(params.CityCode, string(bs))
 			}
 			if k == 15 {
 				break
 			}
-			aqi := float64(0)
 			t, err1 := time.ParseInLocation("2006-01-02", strings.Split(v.FxDate, "+")[0], time.Local)
 			if err1 != nil {
 				xzap.Error(err1.Error())
 				continue
 			}
 
+			// 默认 20 优
+			aqi := float64(20)
 			if aqiData != nil && len(aqiData.Daily) > k {
 				aqi, _ = strconv.ParseFloat(aqiData.Daily[k].Aqi, 64)
 			}
