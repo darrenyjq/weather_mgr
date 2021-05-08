@@ -176,7 +176,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			xzap.Error("和风 API 系统维护：" + err.Error())
 			return nil, err
 		}
-		var alertDesc, forecastKeypoint, warmRemind string
+		var alertDesc, forecastKeypoint, warmRemind, walkRemind string
 		lifeSuggestion := &weather_mgr.LifeSuggestion{}
 
 		for _, v := range normalData.Daily {
@@ -189,7 +189,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 				// 穿衣指数
 				warmRemind = v.Level
 				lifeSuggestion.Dressing = v.Category
-
+				walkRemind = v.Text
 			case v.Type == "4":
 				// 	钓鱼指数
 				lifeSuggestion.Fishing = v.Category
@@ -220,6 +220,7 @@ func (M *hefengModel) GetFormatData(params *weather_mgr.WeatherReq) (val *helper
 			ForecastKeypoint: forecastKeypoint,
 			AlertDesc:        alertDesc,
 			WarmRemind:       warmRemind,
+			WalkRemind:       walkRemind,
 			Date:             currentTime.Unix(),
 			LifeSuggestion:   lifeSuggestion,
 		}
