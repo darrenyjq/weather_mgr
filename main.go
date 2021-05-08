@@ -9,13 +9,9 @@ import (
 
 	"gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"os"
 	"os/signal"
 	"syscall"
-	"weather_mgr/helper"
 	_ "weather_mgr/internal"
 	"weather_mgr/internal/service"
 )
@@ -35,10 +31,13 @@ func grpcServer() {
 		xzap.Info("resp:", zap.Any("", resp))
 
 		// 转换grpc类型错误码
-		var errCode int64
+		// var errCode int64
 		if err != nil {
-			errCode = helper.GetErrCode(err)
-			err = status.Errorf(codes.Code(errCode), err.Error())
+			resp = &weather_mgr.TodayResp{}
+			// errCode = helper.GetErrCode(err)
+			// err = status.Errorf(codes.Code(errCode), err.Error())
+			// errCode = helper.GetErrCode(err)
+
 		}
 		// 上报数据
 		return
