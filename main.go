@@ -33,7 +33,10 @@ func grpcServer() {
 		// 转换grpc类型错误码
 		// var errCode int64
 		if err != nil {
-			resp = &weather_mgr.TodayResp{}
+			err = nil
+			resp = &weather_mgr.TodayResp{
+				AlertDesc: "该服务已下线",
+			}
 			// errCode = helper.GetErrCode(err)
 			// err = status.Errorf(codes.Code(errCode), err.Error())
 			// errCode = helper.GetErrCode(err)
