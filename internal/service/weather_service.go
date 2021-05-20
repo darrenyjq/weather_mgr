@@ -135,6 +135,8 @@ func (w *WeatherService) Daily(ctx context.Context, params *weather_mgr.WeatherR
 func (w *WeatherService) Today(ctx context.Context, params *weather_mgr.WeatherReq) (data *weather_mgr.TodayResp, err error) {
 	params.WeatherType = "today"
 	data = new(weather_mgr.TodayResp)
+	data.AlertDesc = "分钟降水情况正在更新中"
+	return
 	res, err := model.WeatherModel.GetWeatherRealTimeData(fmt.Sprintf("%s", params.CityCode))
 	currentTime, _ := model.MsIntToTime(params.SessionBase.SendTsMillisec)
 	rainDesc := model.WeatherModel.GetCurRain(params.CityCode)
