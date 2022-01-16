@@ -4,10 +4,10 @@ import (
 	"context"
 	"go.uber.org/zap"
 	"log"
-	"weather_mgr/cootek/pgd/weather_mgr"
+	"weather_mgr/bbbb/pgd/weather_mgr"
 	"weather_mgr/pkg/xzap"
 
-	"gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
+	"gitlab.corp.aaaa/cloud_infra/elete-go/pkg/elete/sdk"
 	"google.golang.org/grpc"
 	"os"
 	"os/signal"
@@ -48,9 +48,9 @@ func grpcServer() {
 	// 添加拦截器
 	sdk.SetupApplicationServerInterceptor(interceptor)
 	// 注册要调用的下游服务，多个就调用多次
-	sdk.AddNormalProtoFileToMetadatda("cootek.pgd.ysession.proto")
+	sdk.AddNormalProtoFileToMetadatda("bbbb.pgd.ysession.proto")
 	sdk.AddNormalProtoFileToMetadatda("account.proto")
-	sdk.AddServiceProtoFileToMetadata("cootek.pgd.weather_mgr.proto")
+	sdk.AddServiceProtoFileToMetadata("bbbb.pgd.weather_mgr.proto")
 	server := sdk.NewGrpcServer(sdk.EMPTY_RROTOS)
 	weather_mgr.RegisterWeatherMgrServer(server, service.WeatherServ)
 	sdk.PublishGrpcServer(server)

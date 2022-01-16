@@ -3,7 +3,7 @@ package helper
 import (
 	"encoding/json"
 	"time"
-	"weather_mgr/cootek/pgd/weather_mgr"
+	"weather_mgr/bbbb/pgd/weather_mgr"
 )
 
 type (

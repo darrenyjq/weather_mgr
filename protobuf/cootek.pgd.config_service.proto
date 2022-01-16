@@ -1,8 +1,8 @@
 syntax = "proto3";
 import "account.proto";
 
-package cootek.pgd.config_service;
-option go_package = "weather_mgr/cootek/pgd/config_service";
+package bbbb.pgd.config_service;
+option go_package = "weather_mgr/bbbb/pgd/config_service";
 
 message Abtest {
     string  name    =   1;

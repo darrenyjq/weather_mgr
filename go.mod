@@ -23,8 +23,8 @@ require (
 	github.com/stretchr/testify v1.5.1
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/uber-go/atomic v1.4.0 // indirect
-	gitlab.corp.cootek.com/cloud_infra/apollo-client-golang v1.0.2
-	gitlab.corp.cootek.com/cloud_infra/elete-go v1.2.44
+	gitlab.corp.aaaa.com/cloud_infra/apollo-client-golang v1.0.2
+	gitlab.corp.aaaa.com/cloud_infra/elete-go v1.2.44
 	go.uber.org/zap v1.10.0
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80 // indirect
 	google.golang.org/grpc v1.27.0

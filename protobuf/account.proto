@@ -1,7 +1,7 @@
 syntax = "proto2";
 
-package cootek.pgd.account;
-option go_package = "weather_mgr/cootek/pgd/account";
+package bbbb.pgd.account;
+option go_package = "weather_mgr/bbbb/pgd/account";
 
 enum AccountType {
     TEMP = 0;

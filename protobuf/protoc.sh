@@ -1,3 +1,3 @@
 #!/bin/sh
 set -xe
-protoc -I . --go_out=plugins=grpc:../../../src ./cootek*.proto
+protoc -I . --go_out=plugins=grpc:../../../src ./bbbb*.proto

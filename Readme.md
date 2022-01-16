@@ -1,7 +1,7 @@
 ## 业务基础框架
 1. 把代码clone下来，重命名为项目名称
 ```
-git clone git@gitlab.corp.cootek.com:pgd_portfolio/mig/server/base_go.git newProject
+git clone git@gitlab.corp.bbbb.com:pgd_portfolio/mig/server/base_go.git newProject
 ```
 2. 替换代码中的包引用路径，base为项目名即可
 ```
@@ -13,11 +13,11 @@ go run artisan.go -name newProject
 这样就能找到依赖的elete_go中的sdk包。
 
 ```$xslt
-git clone git@gitlab.corp.cootek.com:cloud_infra/elete_go.git go
+git clone git@gitlab.corp.bbbb.com:cloud_infra/elete_go.git go
 
 cd go/src
 
-git clone git@gitlab.corp.cootek.com:gb_server/mig2.git mig
+git clone git@gitlab.corp.bbbb.com:gb_server/mig2.git mig
 
 cd mig
 

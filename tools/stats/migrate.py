@@ -14,7 +14,7 @@ reload(sys)
 logging.basicConfig(filename='check.log',level=logging.DEBUG,format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 sys.setdefaultencoding('utf8')
 
-con = pymysql.connect(host="121.52.250.37",user="cootek", passwd="cootek", db="pgd_mig")
+con = pymysql.connect(host="121.52.250.37",user="bbbb", passwd="bbbb", db="pgd_mig")
 
 
 

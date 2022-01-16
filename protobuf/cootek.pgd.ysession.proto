@@ -1,8 +1,8 @@
 syntax = "proto3";
 
 import "account.proto";
-package cootek.pgd.ysession;
-option go_package = "weather_mgr/cootek/pgd/ysession";
+package bbbb.pgd.ysession;
+option go_package = "weather_mgr/bbbb/pgd/ysession";
 
 message SessionParam{
     account.Account account =   1;

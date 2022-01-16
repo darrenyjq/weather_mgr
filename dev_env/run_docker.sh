@@ -10,7 +10,7 @@ then
     docker exec -it go_dev_env /bin/sh
 else
 
-    docker run --rm=true -dit  -v/Users/Fun/Documents/code/go:/go   -p 9529:80 -p 6379:6379 --name go_dev_env  harbor.cootekservice.com/ime_us/go_dev_env:1.0.1
+    docker run --rm=true -dit  -v/Users/Fun/Documents/code/go:/go   -p 9529:80 -p 6379:6379 --name go_dev_env  harbor.bbbbservice.com/ime_us/go_dev_env:1.0.1
     docker exec -it go_dev_env /bin/sh
 
 fi

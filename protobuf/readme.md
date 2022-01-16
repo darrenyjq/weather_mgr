@@ -4,10 +4,10 @@
 ```
 syntax = "proto2";
 
-package cootek.pgd.feeds;
+package bbbb.pgd.feeds;
 
 //必须把当前项目名放进去，不然生成的*.pb.go找不到依赖包，假设当前是chubao.
-option go_package = "chubao/cootek/pgd/feeds";
+option go_package = "chubao/bbbb/pgd/feeds";
 
 import "elete.proto";
 import "account.proto";
@@ -23,13 +23,13 @@ message LOCATION {
  
  ## 命令
  ```
- protoc -I ../cootek.com/elete/sdk -I ./protobuf --go_out=plugins=grpc:../../src ./protobuf/feeds.proto 
+ protoc -I ../aaaa/elete/sdk -I ./protobuf --go_out=plugins=grpc:../../src ./protobuf/feeds.proto 
  ```
  当前执行命令编译protobuf文件时，因为是相对路径，所以你现在要在项目的根目录$GOPATH/src/chubao，也就是当前文件目录的上级执行这个命令。
 
 **命令说明**
 
-1. -I ../cootek.com/elete/sdk  
+1. -I ../aaaa/elete/sdk  
 指定依赖的elete.proto路径
 
 2. -I ./protobuf  
@@ -37,7 +37,7 @@ message LOCATION {
 
 3. --go_out=plugins=grpc:../../src  
 plugins=grpc指定grpc
-../../src 因为上面指定的包的路径为chubao/cootek/pgd/feeds，这是相对$GOPATH/src的。
+../../src 因为上面指定的包的路径为chubao/bbbb/pgd/feeds，这是相对$GOPATH/src的。
 
 4. ./protobuf/feeds.proto 
 编译指定的文件
@@ -48,7 +48,7 @@ plugins=grpc指定grpc
 
 执行完protoc命令后要记得执行下扩展命令生成自定义tag
 ```bash
- protoc-go-inject-tag -input=./cootek/pgd/ad_platform/ad_platform.pb.go 
+ protoc-go-inject-tag -input=./bbbb/pgd/ad_platform/ad_platform.pb.go 
 ```
 
  
@@ -66,4 +66,4 @@ plugins=grpc指定grpc
 
 ## 针对token proto的编译
 - 需要使用protoc3, 请自行安装protoc3
-``` protoc -I ../cootek.com/elete/sdk -I ./protobuf  --go_out=plugins=grpc:../../src/ ./protobuf/token_service.proto ```
+``` protoc -I ../aaaa/elete/sdk -I ./protobuf  --go_out=plugins=grpc:../../src/ ./protobuf/token_service.proto ```

@@ -192,10 +192,10 @@ github.com/ugorji/go v1.1.4/go.mod h1:uQMGLiO92mf5W77hV/PUCpI3pbzQx3CRekS0kk+RGr
 github.com/viney-shih/go-lock v1.0.1/go.mod h1:Z6wRcK2rv2PxZz5Tpcq9Z5+Spn/caOxNcUQsyX2p1zk=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
-gitlab.corp.cootek.com/cloud_infra/apollo-client-golang v1.0.2 h1:A6zztdcDLgQI6MEwz8+ZRHokwm7uZQstisHDyJ1vL+s=
-gitlab.corp.cootek.com/cloud_infra/apollo-client-golang v1.0.2/go.mod h1:cS994sCFb4FqHkHAC4gHVtOnpfo1Ujsumwmvmn6mP6g=
-gitlab.corp.cootek.com/cloud_infra/elete-go v1.2.44 h1:8yLnD95AHKMJSionc+aNd/m1NKbKxPY0dve9FtBED2Y=
-gitlab.corp.cootek.com/cloud_infra/elete-go v1.2.44/go.mod h1:tGYI/ODrER1ZlDYm0C/dOcjlAFfm9KXt+4f0mvNXTsk=
+gitlab.corp.aaaa.com/cloud_infra/apollo-client-golang v1.0.2 h1:A6zztdcDLgQI6MEwz8+ZRHokwm7uZQstisHDyJ1vL+s=
+gitlab.corp.aaaa.com/cloud_infra/apollo-client-golang v1.0.2/go.mod h1:cS994sCFb4FqHkHAC4gHVtOnpfo1Ujsumwmvmn6mP6g=
+gitlab.corp.aaaa.com/cloud_infra/elete-go v1.2.44 h1:8yLnD95AHKMJSionc+aNd/m1NKbKxPY0dve9FtBED2Y=
+gitlab.corp.aaaa.com/cloud_infra/elete-go v1.2.44/go.mod h1:tGYI/ODrER1ZlDYm0C/dOcjlAFfm9KXt+4f0mvNXTsk=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
 go.uber.org/atomic v1.4.0/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=

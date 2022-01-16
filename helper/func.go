@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"weather_mgr/cootek/pgd/account"
-	"weather_mgr/cootek/pgd/ysession"
+	"weather_mgr/bbbb/pgd/account"
+	"weather_mgr/bbbb/pgd/ysession"
 	"weather_mgr/pkg/xzap"
 
 	"github.com/gin-gonic/gin"

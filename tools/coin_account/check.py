@@ -16,8 +16,8 @@ sys.setdefaultencoding('utf8')
 FORMAT = '%(levelname)s  %(message)s'
 
 # con = pymysql.connect(host="cn_db", port=3308, user="root", passwd="root", db="pgd_mig")
-con = pymysql.connect(host="121.52.250.37", user="cootek", passwd="cootek", db="pgd_mig")
-# con = pymysql.connect(host="pgd-mysql01.corp.cootek.com", user="pgd_mig_rw", passwd="0U30FiDL4ZJ0jayk", db="pgd_mig")
+con = pymysql.connect(host="121.52.250.37", user="bbbb", passwd="bbbb", db="pgd_mig")
+# con = pymysql.connect(host="pgd-mysql01.corp.aaaa", user="pgd_mig_rw", passwd="0U30FiDL4ZJ0jayk", db="pgd_mig")
 
 
 def _check(offset, limit):

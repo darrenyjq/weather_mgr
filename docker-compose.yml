@@ -13,14 +13,14 @@ services:
     ##################  weathers ##################
   weathers:
     container_name: weathers
-    image: "harbor.cootekservice.com/mig_one/weather_mgr:${TAG}"
+    image: "harbor.bbbbservice.com/mig_one/weather_mgr:${TAG}"
     restart: always
     environment:
       - LOCATION=cn
       - CUSTOM_RUNTIME_ENV=DEV
       - CONF_SERVER=not-conf-server
-      - ELETE_PROXY_HOST=elete-proxy-dev.cootekos.com:1921
-      - SERVICE=cootek.mig_one.weather_mgr
+      - ELETE_PROXY_HOST=elete-proxy-dev.bbbbos.com:1921
+      - SERVICE=bbbb.mig_one.weather_mgr
       - APOLLO_ACCESSKEY_SECRET=ed56da201d8d4575bc1cd2b233018184
       - STDERR_REDIRECT=0
       - HOSTNAME=127.0.0.1

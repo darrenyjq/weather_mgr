@@ -3,8 +3,8 @@ package internal
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"gitlab.corp.cootek.com/cloud_infra/apollo-client-golang/apollo"
-	"gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
+	"gitlab.corp.aaaa/cloud_infra/apollo-client-golang/apollo"
+	"gitlab.corp.aaaa/cloud_infra/elete-go/pkg/elete/sdk"
 	"go.uber.org/zap/zapcore"
 	"os"
 	"strings"

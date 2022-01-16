@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"weather_mgr/cootek/pgd/weather_mgr"
+	"weather_mgr/bbbb/pgd/weather_mgr"
 	"weather_mgr/helper"
 	"weather_mgr/internal"
 	"weather_mgr/pkg/xzap"

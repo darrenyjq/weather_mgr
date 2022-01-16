@@ -13,10 +13,10 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"weather_mgr/cootek/pgd/config_service"
+	"weather_mgr/bbbb/pgd/config_service"
 	"weather_mgr/pkg/xzap"
 
-	"gitlab.corp.cootek.com/cloud_infra/elete-go/pkg/elete/sdk"
+	"gitlab.corp.aaaa/cloud_infra/elete-go/pkg/elete/sdk"
 	"go.uber.org/zap"
 )
 
@@ -149,9 +149,9 @@ func (this *config) readFromHttp(ctx context.Context, in *config_service.GetConf
 var cfg config
 
 func init() {
-	host := "http://mig-config-service.corp.cootek.com"
+	host := "http://mig-config-service.corp.aaaa"
 	if strings.ToLower(os.Getenv("CUSTOM_RUNTIME_ENV")) != "pro" {
-		host = "http://pgd-beta.cootekservice.com"
+		host = "http://pgd-beta.bbbbservice.com"
 	}
 	log.Println("init xconfig, http host: " + host)
 	cfg = config{
